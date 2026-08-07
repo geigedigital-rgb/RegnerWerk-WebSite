@@ -1,0 +1,36 @@
+---
+description: Ironclad three-repo / three-domain map — never mix marketing site, configurator, and admin backend
+alwaysApply: true
+---
+
+# RegnerWerk repos & domains (ironclad)
+
+Never mix these three projects. Each has its own local folder, GitHub repo, and domain.
+
+## 1) Marketing website (own domain / site)
+
+- **Local:** `/Users/vlad/Documents/RegnerWerk/RegnerWerk-Web-site/RegnerWerk-WebSite` (parent folder may be named `RegnerWerk-Web-site` or `RegnerWerk-WebSite`)
+- **GitHub:** https://github.com/geigedigital-rgb/RegnerWerk-WebSite
+- **Role:** Marketing / public website on the **primary site domain**
+
+## 2) Configurator — Sofort planner (second domain)
+
+- **Local:** `/Users/vlad/Documents/RegnerWerk/RegnerWerk`
+- **GitHub:** https://github.com/geigedigital-rgb/RegnerWerk
+- **Role:** Next.js Sofort planner / configurator on the **second (configurator) domain**
+
+## 3) Admin backend (third domain)
+
+- **Local:** `/Users/vlad/Documents/RegnerWerk/RegnerWerk-Backend/RegnerWerk-Backend` (outer wrapper: `RegnerWerk-Backend/`)
+- **GitHub:** https://github.com/geigedigital-rgb/RegnerWerk-Backend
+- **Role:** Admin backend on the **third (admin) domain**
+
+## Agent rules
+
+- Edit and commit only in the repo that matches the task (site vs planner vs admin).
+- Do not push website changes to `RegnerWerk`, or configurator changes to `RegnerWerk-WebSite` / `RegnerWerk-Backend`.
+- Remotes must stay:
+  - Website → `https://github.com/geigedigital-rgb/RegnerWerk-WebSite.git`
+  - Configurator → `https://github.com/geigedigital-rgb/RegnerWerk.git`
+  - Backend → `https://github.com/geigedigital-rgb/RegnerWerk-Backend.git`
+
