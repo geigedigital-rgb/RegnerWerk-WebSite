@@ -12,12 +12,14 @@ Never mix these three projects. Each has its own local folder, GitHub repo, and 
 - **Local:** `/Users/vlad/Documents/RegnerWerk/RegnerWerk-Web-site/RegnerWerk-WebSite` (parent folder may be named `RegnerWerk-Web-site` or `RegnerWerk-WebSite`)
 - **GitHub:** https://github.com/geigedigital-rgb/RegnerWerk-WebSite
 - **Role:** Marketing / public website on the **primary site domain**
+- **Local port:** `3000` · CTAs to configurator via `NEXT_PUBLIC_KONFIGURATOR_URL`
 
 ## 2) Configurator — Sofort planner (second domain)
 
 - **Local:** `/Users/vlad/Documents/RegnerWerk/RegnerWerk`
 - **GitHub:** https://github.com/geigedigital-rgb/RegnerWerk
 - **Role:** Next.js Sofort planner / configurator on the **second (configurator) domain**
+- **Local port:** `3002` · entry `/konfigurator` · site CTAs via `NEXT_PUBLIC_SITE_URL`
 
 ## 3) Admin backend (third domain)
 

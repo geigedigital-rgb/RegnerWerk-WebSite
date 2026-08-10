@@ -1,0 +1,185 @@
+@import "tailwindcss";
+
+:root {
+  /* Lawn / structure */
+  --rw-forest: #0b2414;
+  --rw-forest-mid: #14352b;
+  /* Water accent — brand cyan */
+  --rw-lime: #00ffcf;
+  --rw-lime-hover: #00d9b0;
+  --rw-aqua-deep: #0a9f86;
+  /* Surfaces: white ↔ cool aqua mist (not pure grass green) */
+  --rw-mint: #eafcf7;
+  --rw-ice: #f3fafc;
+  --rw-white: #ffffff;
+  --rw-gray-50: #f7fbfa;
+  --rw-gray-100: #ddeae6;
+  --rw-gray-400: #7a948c;
+  --rw-gray-600: #4d655c;
+  --rw-gold: #e8b84a;
+  --rw-shadow-soft: 0 8px 30px rgba(11, 36, 20, 0.08);
+  --background: var(--rw-white);
+  --foreground: var(--rw-forest);
+
+  /* Layout / type rhythm */
+  --rw-measure: 40rem; /* ~64–68ch readable line */
+  --rw-measure-wide: 46rem;
+  --rw-section-y: clamp(3.5rem, 6vw, 5.5rem);
+  --rw-leading-body: 1.7;
+  --rw-leading-tight: 1.25;
+  --rw-tracking-display: -0.02em;
+  --rw-tracking-body: -0.011em;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-forest: var(--rw-forest);
+  --color-forest-mid: var(--rw-forest-mid);
+  --color-lime: var(--rw-lime);
+  --color-lime-hover: var(--rw-lime-hover);
+  --color-aqua-deep: var(--rw-aqua-deep);
+  --color-mint: var(--rw-mint);
+  --color-ice: var(--rw-ice);
+  --color-rw-white: var(--rw-white);
+  --color-gray-50: var(--rw-gray-50);
+  --color-gray-100: var(--rw-gray-100);
+  --color-gray-400: var(--rw-gray-400);
+  --color-gray-600: var(--rw-gray-600);
+  --color-gold: var(--rw-gold);
+  --font-sans: var(--font-plus-jakarta);
+  --font-accent: var(--font-caveat);
+  --shadow-soft: var(--rw-shadow-soft);
+  --radius-card: 1.5rem;
+  --radius-media: 1.75rem;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-plus-jakarta), system-ui, sans-serif;
+  font-size: 1.0625rem; /* 17px — easier long-form DE reading */
+  line-height: var(--rw-leading-body);
+  letter-spacing: var(--rw-tracking-body);
+  text-rendering: optimizeLegibility;
+  font-feature-settings: "kern" 1, "liga" 1;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--rw-lime) 40%, white);
+  color: var(--rw-forest);
+}
+
+:focus-visible {
+  outline: 2px solid var(--rw-lime);
+  outline-offset: 3px;
+}
+
+/* Readable text column — left-aligned, no centering */
+.rw-measure {
+  max-width: var(--rw-measure);
+}
+
+.rw-measure-wide {
+  max-width: var(--rw-measure-wide);
+}
+
+.rw-section {
+  padding-block: var(--rw-section-y);
+}
+
+.rw-display {
+  font-weight: 700;
+  line-height: var(--rw-leading-tight);
+  letter-spacing: var(--rw-tracking-display);
+}
+
+.rw-lead {
+  font-size: clamp(1.05rem, 1.5vw, 1.2rem);
+  line-height: 1.65;
+  color: var(--rw-gray-600);
+}
+
+.rw-body {
+  font-size: 1.0625rem;
+  line-height: var(--rw-leading-body);
+  color: var(--rw-gray-600);
+}
+
+.rw-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--rw-aqua-deep);
+}
+
+/* Prose stack for marketing paragraphs */
+.rw-prose {
+  max-width: var(--rw-measure);
+}
+
+.rw-prose > * + * {
+  margin-top: 1.1em;
+}
+
+.rw-prose p {
+  line-height: var(--rw-leading-body);
+  color: var(--rw-gray-600);
+}
+
+.rw-prose h2 {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: var(--rw-tracking-display);
+  line-height: var(--rw-leading-tight);
+  color: var(--rw-forest);
+}
+
+@keyframes float-soft {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.animate-float-soft {
+  animation: float-soft 5s ease-in-out infinite;
+}
+
+.animate-float-soft-delayed {
+  animation: float-soft 5.5s ease-in-out 0.6s infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .animate-float-soft,
+  .animate-float-soft-delayed,
+  .animate-marquee {
+    animation: none;
+  }
+}
