@@ -1,0 +1,6 @@
+# Next.js 16 requires Node >= 20.9.0 (Nixpacks defaulted to 18).
+[variables]
+NIXPACKS_NODE_VERSION = "20"
+
+[phases.setup]
+nixPkgs = ["nodejs_20", "npm-9_x"]
