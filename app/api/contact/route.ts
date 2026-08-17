@@ -1,5 +1,3 @@
-import { mkdir, appendFile } from "fs/promises";
-import path from "path";
 import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getBackendUrl } from "@/lib/backend";
@@ -11,8 +9,10 @@ type Body = {
   name?: string;
   email?: string;
   phone?: string;
+  location?: string;
   message?: string;
   gardenType?: string;
+  contextTopic?: string;
   company_website?: string;
   landing_page?: string;
   referrer?: string;
@@ -33,15 +33,18 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Ungültige Anfrage." }, { status: 400 });
   }
 
+  // Honeypot — silent success
   if (clean(body.company_website, 200)) {
-    return NextResponse.json({ ok: true, id: "honeypot" });
+    return NextResponse.json({ ok: true, reference: "RW-HONEYPOT" });
   }
 
   const name = clean(body.name, 120);
   const email = clean(body.email, 200).toLowerCase();
   const phone = clean(body.phone, 60);
+  const location = clean(body.location, 200);
   const message = clean(body.message, 4000);
   const gardenType = clean(body.gardenType, 120);
+  const contextTopic = clean(body.contextTopic, 120);
 
   if (name.length < 2) {
     return NextResponse.json({ error: "Name fehlt." }, { status: 400 });
@@ -50,88 +53,82 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "E-Mail ungültig." }, { status: 400 });
   }
 
-  const entry = {
-    id: `pa_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`,
-    createdAt: new Date().toISOString(),
+  const formType =
+    /service|wartung/i.test(gardenType + contextTopic) ? "service" : "contact";
+
+  const payload = {
+    submission_id: randomUUID(),
+    form_type: formType,
     name,
     email,
     phone: phone || null,
-    gardenType: gardenType || null,
+    address: location || null,
+    postal_code: location.match(/\b(\d{5})\b/)?.[1] || null,
     message: message || null,
-    source: "projekt-anfragen",
+    garden_type: gardenType || null,
+    privacy_notice_version: "2026-08-01",
+    landing_page: clean(body.landing_page, 500) || "/kontakt/",
+    referrer: body.referrer ? clean(body.referrer, 500) : null,
+    utm: body.utm && typeof body.utm === "object" ? body.utm : null,
+    callback_requested: true,
+    callback_consent: true,
   };
 
-  // Local backup log (ephemeral on many hosts)
-  try {
-    const dir = path.join(process.cwd(), "data", "leads");
-    await mkdir(dir, { recursive: true });
-    await appendFile(
-      path.join(dir, "projekt-anfragen.jsonl"),
-      `${JSON.stringify(entry)}\n`,
-      "utf8",
-    );
-  } catch (err) {
-    console.error("[projekt-anfrage] write failed", err);
-  }
-
-  console.info("[projekt-anfrage]", JSON.stringify(entry));
-
   const telegramOk = await sendTelegramLead({
-    source: "Website · Projekt-Anfrage",
+    source: formType === "service" ? "Website · Service" : "Website · Kontakt",
     name,
     email,
     phone: phone || null,
     message: message || null,
-    extra: { Garten: gardenType || null },
+    extra: {
+      Ort: location || null,
+      Garten: gardenType || null,
+      Thema: contextTopic || null,
+    },
   });
 
-  // Forward to CRM Inbox
-  let reference: string | undefined;
   try {
     const res = await fetch(`${getBackendUrl()}/api/public/leads`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        submission_id: randomUUID(),
-        form_type: "projekt_anfrage",
-        name,
-        email,
-        phone: phone || null,
-        message: message || null,
-        garden_type: gardenType || null,
-        privacy_notice_version: "2026-08-01",
-        landing_page: clean(body.landing_page, 500) || "/projekt-anfragen/",
-        referrer: body.referrer ? clean(body.referrer, 500) : null,
-        utm: body.utm && typeof body.utm === "object" ? body.utm : null,
-        callback_requested: true,
-        callback_consent: true,
-      }),
+      body: JSON.stringify(payload),
     });
     const data = (await res.json().catch(() => ({}))) as {
-      reference?: string;
       error?: string;
+      reference?: string;
+      accepted?: boolean;
     };
     if (!res.ok) {
-      console.error("[projekt-anfrage] CRM forward failed", res.status, data);
+      console.error("[contact] backend", res.status, data);
       if (telegramOk) {
-        return NextResponse.json({ ok: true, id: entry.id, reference: "TG" });
+        return NextResponse.json({
+          ok: true,
+          reference: "TG",
+          accepted: true,
+        });
       }
       return NextResponse.json(
-        { error: data.error || "Senden fehlgeschlagen. Bitte später erneut." },
+        { error: data.error || "Senden fehlgeschlagen." },
         { status: 502 },
       );
     }
-    reference = data.reference;
+    return NextResponse.json({
+      ok: true,
+      reference: data.reference,
+      accepted: data.accepted,
+    });
   } catch (err) {
-    console.error("[projekt-anfrage] CRM unreachable", err);
+    console.error("[contact] backend unreachable", err);
     if (telegramOk) {
-      return NextResponse.json({ ok: true, id: entry.id, reference: "TG" });
+      return NextResponse.json({
+        ok: true,
+        reference: "TG",
+        accepted: true,
+      });
     }
     return NextResponse.json(
       { error: "Dienst vorübergehend nicht erreichbar. Bitte später erneut." },
       { status: 503 },
     );
   }
-
-  return NextResponse.json({ ok: true, id: entry.id, reference });
 }
