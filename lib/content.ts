@@ -1,5 +1,5 @@
 /** Compatibility barrel — prefer imports from lib/content/* or lib/site. */
-export { site, konfiguratorUrl, formatEuro, telHref } from "@/lib/site";
+export { site, konfiguratorUrl, konfiguratorEntryUrl, formatEuro, telHref } from "@/lib/site";
 export { nav, footerNav, legalNav, calcHref } from "@/lib/content/nav";
 export { testimonials } from "@/lib/content/testimonials";
 export { projects } from "@/lib/content/projects";

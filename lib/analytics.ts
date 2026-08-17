@@ -11,8 +11,6 @@ export type AnalyticsEvent =
   | "project_open"
   | "land_to_calc"
   | "photo_upload"
-  | "konfigurator_maintenance_open"
-  | "projekt_anfragen_from_maintenance"
   | "projekt_anfrage_start"
   | "projekt_anfrage_submit";
 

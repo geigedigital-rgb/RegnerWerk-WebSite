@@ -3,7 +3,6 @@ import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { CookieBanner } from "@/components/shared/CookieBanner";
-import { KonfiguratorMaintenanceProvider } from "@/components/shared/KonfiguratorMaintenanceModal";
 import { SkipToContent } from "@/components/shared/SkipToContent";
 import { StickyMobileCta } from "@/components/shared/StickyMobileCta";
 import { site } from "@/lib/site";
@@ -49,16 +48,14 @@ export default function RootLayout({
       className={`${plusJakarta.variable} ${caveat.variable} h-full antialiased`}
     >
       <body className="relative flex min-h-full flex-col font-sans text-forest">
-        <KonfiguratorMaintenanceProvider>
-          <SkipToContent />
-          <Header />
-          <main id="main-content" className="flex-1 pb-20 lg:pb-0">
-            {children}
-          </main>
-          <Footer />
-          <StickyMobileCta />
-          <CookieBanner />
-        </KonfiguratorMaintenanceProvider>
+        <SkipToContent />
+        <Header />
+        <main id="main-content" className="flex-1 pb-20 lg:pb-0">
+          {children}
+        </main>
+        <Footer />
+        <StickyMobileCta />
+        <CookieBanner />
       </body>
     </html>
   );

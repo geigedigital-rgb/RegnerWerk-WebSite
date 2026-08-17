@@ -1,7 +1,9 @@
 /** Second domain — Sofort configurator (never same-origin planner on this site). */
 export const konfiguratorUrl =
   process.env.NEXT_PUBLIC_KONFIGURATOR_URL?.replace(/\/$/, "") ||
-  "http://localhost:3001";
+  "http://localhost:3002";
+
+export const konfiguratorEntryUrl = `${konfiguratorUrl}/konfigurator`;
 
 export const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||

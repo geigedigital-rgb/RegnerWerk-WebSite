@@ -14,7 +14,7 @@ import { RelatedLinks } from "@/components/shared/RelatedLinks";
 import { StageGallery } from "@/components/shared/StageGallery";
 import { Container } from "@/components/ui/Container";
 import type { ContentBlock, MarketingPage } from "@/lib/content/pages";
-import { konfiguratorUrl } from "@/lib/site";
+import { konfiguratorEntryUrl } from "@/lib/site";
 import {
   breadcrumbSchema,
   faqSchema,
@@ -231,7 +231,7 @@ export function MarketingPageView({
 }) {
   const primaryHref =
     page.cta.primaryHref === "CONFIGURATOR"
-      ? `${konfiguratorUrl}/`
+      ? konfiguratorEntryUrl
       : page.cta.primaryHref;
 
   const crumbSchema = breadcrumbSchema(
@@ -316,7 +316,7 @@ export function MarketingPageView({
           const block = group.block;
           const href =
             block.primaryHref === "CONFIGURATOR"
-              ? `${konfiguratorUrl}/`
+              ? konfiguratorEntryUrl
               : block.primaryHref;
           return (
             <CtaMediaBand

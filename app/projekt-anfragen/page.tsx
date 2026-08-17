@@ -20,9 +20,9 @@ export default function ProjektAnfragenPage() {
               Kurz beschreiben. Wir melden uns.
             </h1>
             <p className="mt-4 text-[1.0625rem] leading-[1.7] text-gray-600">
-              Der Online-Konfigurator ist gerade in Wartung. Mit wenigen Angaben
-              können Sie uns Ihr Vorhaben schicken – unverbindlich, ohne
-              Technik-Details.
+              Mit wenigen Angaben können Sie uns Ihr Vorhaben schicken –
+              unverbindlich, ohne Technik-Details. Wer lieber zuerst online
+              rechnen möchte, startet den Konfigurator über „Garten berechnen“.
             </p>
             <ul className="mt-8 space-y-3 text-sm leading-relaxed text-gray-600">
               <li className="flex gap-2.5">
