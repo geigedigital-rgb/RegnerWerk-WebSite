@@ -24,16 +24,25 @@ export function Footer() {
               Navigation
             </p>
             <ul className="mt-4 space-y-2">
-              {footerNav.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className="text-sm text-white/80 hover:text-lime"
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
+              {footerNav.map((item) => {
+                const external =
+                  item.href.startsWith("http://") ||
+                  item.href.startsWith("https://");
+                const className = "text-sm text-white/80 hover:text-lime";
+                return (
+                  <li key={item.href}>
+                    {external ? (
+                      <a href={item.href} className={className}>
+                        {item.label}
+                      </a>
+                    ) : (
+                      <Link href={item.href} className={className}>
+                        {item.label}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
           </div>
 

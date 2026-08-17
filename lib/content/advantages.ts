@@ -1,5 +1,7 @@
 /** Phase 2 — advantage / trust-mechanism pages (DE). Brand skill structure. */
 
+import { calcHref } from "@/lib/content/nav";
+
 export type AdvantagePage = {
   seo: { title: string; description: string; path: string };
   /** Primary search intent (internal) */
@@ -98,7 +100,7 @@ export const schonenderEinbauPage: AdvantagePage = {
   cta: {
     title: "Garten für schonenden Einbau einschätzen",
     primaryLabel: "Garten berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 
@@ -181,7 +183,7 @@ export const nachgemessenPage: AdvantagePage = {
   cta: {
     title: "Anlage mit Prüfung planen",
     primaryLabel: "Garten berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 
@@ -262,7 +264,7 @@ export const wasseranschlussPage: AdvantagePage = {
   cta: {
     title: "Prüfung und Planung anfragen",
     primaryLabel: "Garten berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 
@@ -426,7 +428,7 @@ export const anlagenpassPage: AdvantagePage = {
   cta: {
     title: "Anlage mit Dokumentation planen",
     primaryLabel: "Garten berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 
@@ -507,7 +509,7 @@ export const wasserverbrauchPage: AdvantagePage = {
   cta: {
     title: "Transparente Anlage planen",
     primaryLabel: "Garten berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 
@@ -582,7 +584,7 @@ export const festpreisPage: AdvantagePage = {
       description: "Grundlage für den Preis",
     },
     {
-      href: "/garten-berechnen/",
+      href: calcHref,
       label: "Garten berechnen",
       description: "Vorläufige Einschätzung",
     },
@@ -590,7 +592,7 @@ export const festpreisPage: AdvantagePage = {
   cta: {
     title: "Kosten für meinen Garten berechnen",
     primaryLabel: "Jetzt berechnen",
-    primaryHref: "/garten-berechnen/",
+    primaryHref: calcHref,
   },
 };
 

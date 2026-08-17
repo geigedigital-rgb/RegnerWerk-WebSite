@@ -3,7 +3,6 @@
 import { useEffect, useId, useRef } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Calculator, MessageSquare, X } from "lucide-react";
-import Link from "next/link";
 import { ContactForm } from "@/components/forms/ContactForm";
 import { Button } from "@/components/ui/Button";
 import { calcHref } from "@/lib/content/nav";
@@ -100,7 +99,7 @@ export function LeadCaptureModal({
               </div>
 
               <div className="mt-4 grid gap-2 sm:grid-cols-2">
-                <Link
+                <a
                   href={calcHref}
                   className="flex items-center gap-3 rounded-2xl border border-gray-100 bg-white px-3.5 py-3 transition hover:border-aqua-deep/40"
                   onClick={onClose}
@@ -116,7 +115,7 @@ export function LeadCaptureModal({
                       ~2 Min. Orientierung
                     </span>
                   </span>
-                </Link>
+                </a>
                 <div className="flex items-center gap-3 rounded-2xl border border-aqua-deep/30 bg-mint px-3.5 py-3">
                   <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-forest text-lime">
                     <MessageSquare className="h-4 w-4" />
@@ -154,13 +153,13 @@ export function LeadCaptureModal({
               />
               <p className="mt-4 text-center text-xs text-gray-400">
                 Lieber selbst starten?{" "}
-                <Link
+                <a
                   href={calcHref}
                   className="font-medium text-aqua-deep underline"
                   onClick={onClose}
                 >
                   Garten berechnen
-                </Link>
+                </a>
               </p>
             </div>
 

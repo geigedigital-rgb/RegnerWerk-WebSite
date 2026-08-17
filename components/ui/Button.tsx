@@ -21,6 +21,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   onClick?: MouseEventHandler<HTMLElement>;
 };
 
+function isExternalHref(href: string) {
+  return href.startsWith("http://") || href.startsWith("https://");
+}
+
 export function Button({
   variant = "primary",
   href,
@@ -33,6 +37,13 @@ export function Button({
   const classes = `inline-flex items-center justify-center gap-2 rounded-full px-7 py-3.5 text-sm font-semibold tracking-tight transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lime focus-visible:ring-offset-2 ${variants[variant]} ${className}`;
 
   if (href) {
+    if (isExternalHref(href)) {
+      return (
+        <a href={href} className={classes} onClick={onClick}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={classes} onClick={onClick}>
         {children}
@@ -46,3 +57,4 @@ export function Button({
     </button>
   );
 }
+

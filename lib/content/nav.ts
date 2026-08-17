@@ -1,3 +1,5 @@
+import { konfiguratorEntryUrl } from "@/lib/site";
+
 export const nav = [
   { href: "/leistungen/", label: "Leistungen" },
   { href: "/bewaesserungsanlage-kosten/", label: "Kosten" },
@@ -6,12 +8,14 @@ export const nav = [
   { href: "/ueber-regnerwerk/", label: "Über RegnerWerk" },
 ] as const;
 
-export const footerNav = [
+export const calcHref = konfiguratorEntryUrl;
+
+export const footerNav: { href: string; label: string }[] = [
   ...nav,
   { href: "/einsatzgebiet/", label: "Einsatzgebiet" },
   { href: "/kontakt/", label: "Kontakt" },
-  { href: "/garten-berechnen/", label: "Garten berechnen" },
-] as const;
+  { href: calcHref, label: "Garten berechnen" },
+];
 
 export const legalNav = [
   { href: "/impressum/", label: "Impressum" },
@@ -19,5 +23,3 @@ export const legalNav = [
   { href: "/cookies/", label: "Cookies" },
   { href: "/nutzungsbedingungen/", label: "Nutzungsbedingungen" },
 ] as const;
-
-export const calcHref = "/garten-berechnen/";

@@ -76,27 +76,39 @@ export function RelatedLinks({
         <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
           {items.map((item) => {
             const blurb = blurbFor(item.href, item.description);
+            const className =
+              "group flex h-full items-start justify-between gap-4 rounded-2xl border border-gray-100 bg-ice/60 px-5 py-4 transition hover:border-aqua-deep/35 hover:bg-mint/50";
+            const inner = (
+              <>
+                <span className="min-w-0">
+                  <span className="block font-semibold text-forest group-hover:text-aqua-deep">
+                    {item.label}
+                  </span>
+                  <span className="mt-1.5 block text-sm leading-relaxed text-gray-600">
+                    {blurb}
+                  </span>
+                </span>
+                <span
+                  className="mt-0.5 shrink-0 text-aqua-deep transition group-hover:text-forest"
+                  aria-hidden
+                >
+                  <ArrowUpRight className="h-5 w-5" />
+                </span>
+              </>
+            );
+            const external =
+              item.href.startsWith("http://") || item.href.startsWith("https://");
             return (
               <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="group flex h-full items-start justify-between gap-4 rounded-2xl border border-gray-100 bg-ice/60 px-5 py-4 transition hover:border-aqua-deep/35 hover:bg-mint/50"
-                >
-                  <span className="min-w-0">
-                    <span className="block font-semibold text-forest group-hover:text-aqua-deep">
-                      {item.label}
-                    </span>
-                    <span className="mt-1.5 block text-sm leading-relaxed text-gray-600">
-                      {blurb}
-                    </span>
-                  </span>
-                  <span
-                    className="mt-0.5 shrink-0 text-aqua-deep transition group-hover:text-forest"
-                    aria-hidden
-                  >
-                    <ArrowUpRight className="h-5 w-5" />
-                  </span>
-                </Link>
+                {external ? (
+                  <a href={item.href} className={className}>
+                    {inner}
+                  </a>
+                ) : (
+                  <Link href={item.href} className={className}>
+                    {inner}
+                  </Link>
+                )}
               </li>
             );
           })}
