@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { CtaBand } from "@/components/shared/CtaBand";
 import { FaqBand } from "@/components/shared/FaqBand";
 import { JsonLd } from "@/components/shared/JsonLd";
@@ -10,6 +11,7 @@ import { homeProcess } from "@/lib/content/home";
 import { images } from "@/lib/content/media";
 import { calcHref } from "@/lib/content/nav";
 import type { Bundesland } from "@/lib/content/regions";
+import { citiesInLand, cityPath } from "@/lib/content/cities";
 import {
   breadcrumbSchema,
   faqSchema,
@@ -18,6 +20,7 @@ import {
 
 export function LandInstallPage({ land }: { land: Bundesland }) {
   const path = `/${land.slug}/bewaesserungsanlage-installieren/`;
+  const landCities = citiesInLand(land.slug);
   const faqs = [
     {
       question: `Installiert RegnerWerk Bewässerungsanlagen in ${land.name}?`,
@@ -92,6 +95,25 @@ export function LandInstallPage({ land }: { land: Bundesland }) {
             sobald freigegebene Objekte vorliegen. Bis dahin keine erfundenen
             Baustellenberichte.
           </div>
+          {landCities.length ? (
+            <div>
+              <h2 className="text-[clamp(1.5rem,2.4vw,2rem)] font-bold leading-tight tracking-[-0.02em] text-forest">
+                Städte in {land.name}
+              </h2>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {landCities.map((city) => (
+                  <li key={city.slug}>
+                    <Link
+                      href={cityPath(city.slug)}
+                      className="inline-block rounded-full border border-gray-100 bg-ice px-4 py-2 text-sm font-medium text-forest hover:border-aqua-deep/40"
+                    >
+                      {city.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
         </Container>
       </section>
       <FaqBand faqs={faqs} />

@@ -1,22 +1,21 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { FadeIn } from "@/components/ui/FadeIn";
+import { HeroBackgroundVideo } from "@/components/sections/HeroBackgroundVideo";
 import { homeHero } from "@/lib/content/home";
 
 export function Hero() {
   return (
-    <section className="relative min-h-[100svh] overflow-hidden">
-      <Image
-        src={homeHero.image}
-        alt={homeHero.imageAlt}
-        fill
-        priority
-        className="object-cover"
-        sizes="100vw"
+    <section className="relative min-h-[100svh] overflow-hidden bg-forest">
+      <HeroBackgroundVideo
+        poster={homeHero.image}
+        posterAlt={homeHero.imageAlt}
+        srcDesktop={homeHero.videoDesktop}
+        srcMobile={homeHero.videoMobile}
       />
-      <div className="absolute inset-0 bg-gradient-to-r from-forest/92 via-forest/72 to-forest/40" />
-      <div className="absolute inset-0 bg-gradient-to-t from-forest/55 via-transparent to-forest/30" />
+      {/* Readable type over bright irrigation footage */}
+      <div className="absolute inset-0 bg-gradient-to-r from-forest/90 via-forest/68 to-forest/35" />
+      <div className="absolute inset-0 bg-gradient-to-t from-forest/60 via-transparent to-forest/35" />
 
       <Container className="relative flex min-h-[100svh] flex-col justify-center pb-20 pt-28">
         <FadeIn className="max-w-3xl">

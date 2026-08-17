@@ -15,8 +15,11 @@ export const homeHero = {
     "RegnerWerk plant, installiert und betreut Bewässerungsanlagen für private Gärten in Deutschland – vom Wassercheck bis zur Nachjustierung.",
   primaryCta: { label: "Garten berechnen", href: calcHref },
   secondaryCta: { label: "Projekte ansehen", href: "/projekte/" },
-  image: images.heroGarden,
+  /** Poster / LCP — also used when motion or data-saver disables video */
+  image: images.heroVideoPoster,
   imageAlt: "Privater Garten mit unsichtbarer Bewässerung",
+  videoDesktop: "/videos/hero-irrigation.mp4",
+  videoMobile: "/videos/hero-irrigation-mobile.mp4",
 };
 
 export const proofItems = [
@@ -179,10 +182,10 @@ export const homeApplications = {
 
 export const homeRegion = {
   eyebrow: "Einsatzgebiet",
-  title: "Bewässerungsanlagen in ganz Deutschland",
-  body: "Wir arbeiten deutschlandweit für private Gärten. Zu jedem Bundesland gibt es eine eigene Informationsseite mit regionalem Kontext – ohne künstliche Stadt-Massenseiten.",
-  href: "/einsatzgebiet/",
-  cta: "Einsatzgebiet ansehen",
+  title: "Bewässerung in deutschen Städten",
+  body: "München, Berlin, Hamburg und weitere Lagen: lokale Seiten zu Klima, Garten und Ablauf – plus Übersicht aller Bundesländer. Vor-Ort-Termine nach Abstimmung, gleicher Planungsstandard bundesweit.",
+  href: "/einsatzgebiet/#staedte",
+  cta: "Städte ansehen",
 };
 
 export const homeFinalCta = {

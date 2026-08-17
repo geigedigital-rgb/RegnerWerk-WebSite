@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { PhotoAtmosphere } from "@/components/shared/PhotoAtmosphere";
 import { homeFinalCta, homeRegion } from "@/lib/content/home";
-import { bundeslaender, landInstallPath } from "@/lib/content/regions";
+import { cityPath, featuredCities } from "@/lib/content/cities";
 import { images } from "@/lib/content/media";
 
 export function FinalCTA() {
@@ -29,22 +29,22 @@ export function FinalCTA() {
             </Button>
           </div>
           <ul className="mt-10 flex flex-wrap gap-2">
-            {bundeslaender.slice(0, 8).map((land) => (
-              <li key={land.slug}>
+            {featuredCities().map((city) => (
+              <li key={city.slug}>
                 <Link
-                  href={landInstallPath(land.slug)}
+                  href={cityPath(city.slug)}
                   className="inline-block rounded-full border border-white/70 bg-white/90 px-4 py-2 text-sm font-medium text-forest backdrop-blur-[2px] hover:border-aqua-deep/40"
                 >
-                  {land.name}
+                  {city.name}
                 </Link>
               </li>
             ))}
             <li>
               <Link
-                href="/einsatzgebiet/"
+                href="/einsatzgebiet/#staedte"
                 className="inline-block rounded-full bg-forest px-4 py-2 text-sm font-medium text-white"
               >
-                Alle Bundesländer
+                Alle Städte
               </Link>
             </li>
           </ul>

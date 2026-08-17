@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { advantagePages } from "@/lib/content/advantages";
 import { projects } from "@/lib/content/projects";
+import { cities, cityPath } from "@/lib/content/cities";
 import { bundeslaender, landInstallPath } from "@/lib/content/regions";
 import { siteUrl } from "@/lib/site";
 
@@ -55,6 +56,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.65,
+    })),
+    ...cities.map((city) => ({
+      url: `${base}${cityPath(city.slug)}`,
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
     })),
   ];
 

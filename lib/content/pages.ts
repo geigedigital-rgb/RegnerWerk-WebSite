@@ -29,6 +29,7 @@ export type ContentBlock =
       intro?: string;
       stages: {
         title: string;
+        caption?: string;
         body?: string;
         image: string;
         imageAlt: string;
@@ -1001,7 +1002,7 @@ export const ueberPage: MarketingPage = {
     {
       type: "text",
       title: "Region",
-      body: "Wir sind in Deutschland tätig. Eine Übersicht der Bundesländer finden Sie unter Einsatzgebiet. Stadtseiten folgen erst mit echten lokalen Projekten.",
+      body: "Wir sind in Deutschland tätig. Stadt- und Bundesland-Seiten finden Sie unter Einsatzgebiet.",
     },
   ],
   faqs: [
@@ -1030,15 +1031,15 @@ export const ueberPage: MarketingPage = {
 
 export const einsatzgebietPage: MarketingPage = {
   seo: {
-    title: "Einsatzgebiet: Bewässerungsanlagen in Deutschland",
+    title: "Einsatzgebiet: Bewässerung in Städten und Bundesländern",
     description:
-      "RegnerWerk plant und installiert Bewässerungsanlagen in ganz Deutschland. Übersicht der Bundesländer und nächste Schritte.",
+      "RegnerWerk plant Bewässerungsanlagen deutschlandweit. Stadtseiten für München, Berlin, Hamburg, Köln und weitere Lagen – plus Übersicht aller Bundesländer.",
     path: "/einsatzgebiet/",
   },
-  query: "Bewässerung Einsatzgebiet Deutschland",
+  query: "Bewässerung Einsatzgebiet Deutschland Stadt",
   h1: "Bewässerungsanlagen in Deutschland",
   lead:
-    "Unser Einsatzgebiet ist deutschlandweit. Für jede Bundesländer-Region gibt es eine eigene Seite mit lokalem Kontext – ohne künstliche Stadt-Massenseiten.",
+    "Unser Einsatzgebiet ist deutschlandweit. Für wichtige Städte und jedes Bundesland gibt es eigene Seiten mit Klima-, Garten- und Ablaufkontext – ohne ausgetauschte Türseiten.",
   heroImage: images.heroGarden,
   heroImageAlt: "Garten in Deutschland",
   blocks: [
@@ -1050,26 +1051,26 @@ export const einsatzgebietPage: MarketingPage = {
     {
       type: "media",
       title: "Lokal informieren, bundesweit denselben Standard",
-      body: "Die Bundesland-Seiten erklären Klima- und Gartenkontext der Region. Der fachliche Ablauf bleibt gleich: Wasser prüfen, planen, einbauen, einstellen. Stadtseiten legen wir erst mit echten lokalen Projekten an.",
+      body: "Stadtseiten erklären Klima, typische Gärten und den Einstieg vor Ort. Bundesland-Seiten ordnen die Region ein. Der fachliche Ablauf bleibt gleich: Wasser prüfen, planen, einbauen, einstellen.",
       image: images.houseGarden,
       imageAlt: "Privater Garten in Deutschland – Platzhalterfoto",
     },
     {
       type: "text",
-      title: "Bundesländer",
-      body: "Wählen Sie Ihr Bundesland in der Liste unten auf dieser Seite. Jede Landesseite erklärt den lokalen Kontext und führt zur Berechnung oder zum Kontakt.",
+      title: "Städte und Bundesländer",
+      body: "Wählen Sie unten Ihre Stadt oder Ihr Bundesland. Jede Seite führt zur vorläufigen Berechnung oder zum Kontakt. Weitere Städte legen wir an, wenn eigener lokaler Inhalt vorliegt – nicht als Namensliste.",
     },
   ],
   faqs: [
     {
-      question: "Kommt ihr auch in mein Bundesland?",
+      question: "Kommt ihr auch in meine Stadt?",
       answer:
-        "Deutschland ist unser Einsatzgebiet. Ob und wann ein Termin bei Ihnen möglich ist, klären wir in der Anfrage.",
+        "Deutschland ist unser Einsatzgebiet. Ob und wann ein Termin bei Ihnen möglich ist, klären wir in der Anfrage – auch wenn Ihre Stadt noch keine eigene Seite hat.",
     },
     {
-      question: "Warum keine Seite für jede Stadt?",
+      question: "Warum nur ausgewählte Stadtseiten?",
       answer:
-        "Wir vermeiden dünne Türseiten mit ausgetauschtem Stadtnamen. Städte folgen, wenn echte Projekte und lokale Inhalte vorliegen.",
+        "Wir schreiben Seiten nur, wo eigener lokaler Kontext (Klima, Gartenlage, typische Grundstücke) vorliegt. Eine Seite für jede Gemeinde mit ausgetauschtem Namen lehnen wir ab.",
     },
   ],
   related: [

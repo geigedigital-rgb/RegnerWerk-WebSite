@@ -35,7 +35,7 @@ const DESCRIPTIONS: Record<string, string> = {
   "/kontakt/":
     "Kurz schreiben – wir melden uns mit dem nächsten Schritt.",
   "/einsatzgebiet/":
-    "Deutschlandweit – Bundesländer und Ablauf.",
+    "Deutschlandweit – Städte, Bundesländer und Ablauf.",
   "/garten-berechnen/":
     "Vorläufige Orientierung in wenigen Minuten.",
   "/wasserverbrauch-leckagekontrolle/":

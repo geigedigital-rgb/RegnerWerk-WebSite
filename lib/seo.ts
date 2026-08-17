@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { featuredCities } from "@/lib/content/cities";
 import { site, siteUrl } from "@/lib/site";
 
 export type SeoInput = {
@@ -91,7 +92,13 @@ export function localBusinessSchema() {
     url: siteUrl,
     email: site.email,
     telephone: site.phone,
-    areaServed: "DE",
+    areaServed: [
+      { "@type": "Country", name: "Deutschland" },
+      ...featuredCities().map((city) => ({
+        "@type": "City",
+        name: city.name,
+      })),
+    ],
     priceRange: "€€€",
   };
 }
@@ -152,6 +159,45 @@ export function serviceSchema({
       name: "Deutschland",
     },
     serviceType: "Automatische Gartenbewässerung",
+  };
+}
+
+export function cityServiceSchema({
+  name,
+  description,
+  path,
+  city,
+  land,
+  geo,
+}: {
+  name: string;
+  description: string;
+  path: string;
+  city: string;
+  land: string;
+  geo: { latitude: number; longitude: number };
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name,
+    description,
+    url: absoluteUrl(path),
+    provider: { "@id": `${siteUrl}/#organization` },
+    serviceType: "Automatische Gartenbewässerung",
+    areaServed: {
+      "@type": "City",
+      name: city,
+      containedInPlace: {
+        "@type": "AdministrativeArea",
+        name: land,
+      },
+      geo: {
+        "@type": "GeoCoordinates",
+        latitude: geo.latitude,
+        longitude: geo.longitude,
+      },
+    },
   };
 }
 

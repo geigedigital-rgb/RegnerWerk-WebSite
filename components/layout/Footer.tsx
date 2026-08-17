@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { footerNav, legalNav } from "@/lib/content/nav";
+import { cityPath, featuredCities } from "@/lib/content/cities";
 import { site, telHref } from "@/lib/site";
 
 export function Footer() {
@@ -75,6 +76,16 @@ export function Footer() {
             ))}
           </div>
         </div>
+
+        <ul className="mt-8 flex flex-wrap gap-x-4 gap-y-2 border-t border-white/10 pt-6 text-sm text-white/50">
+          {featuredCities().map((city) => (
+            <li key={city.slug}>
+              <Link href={cityPath(city.slug)} className="hover:text-lime">
+                Bewässerung {city.name}
+              </Link>
+            </li>
+          ))}
+        </ul>
       </Container>
     </footer>
   );

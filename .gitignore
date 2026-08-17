@@ -55,3 +55,9 @@ next-env.d.ts
 /public/images/**/*.png
 /public/images/**/*.jpg
 /public/images/**/*.jpeg
+
+# raw camera / export videos — only optimized /public/videos/* ship
+/public/images/*.mp4
+/public/images/**/*.mp4
+/public/images/*.mov
+/public/images/**/*.mov
