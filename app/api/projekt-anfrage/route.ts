@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { getBackendUrl } from "@/lib/backend";
 import { sendTelegramLead } from "@/lib/telegram";
+import { PRIVACY_NOTICE_VERSION } from "@/lib/content/consent";
 
 export const runtime = "nodejs";
 
@@ -17,6 +18,7 @@ type Body = {
   landing_page?: string;
   referrer?: string;
   utm?: Record<string, string> | null;
+  privacyAccepted?: boolean;
 };
 
 function clean(v: unknown, max = 2000) {
@@ -48,6 +50,12 @@ export async function POST(req: Request) {
   }
   if (!email.includes("@") || !email.includes(".")) {
     return NextResponse.json({ error: "E-Mail ungültig." }, { status: 400 });
+  }
+  if (body.privacyAccepted !== true) {
+    return NextResponse.json(
+      { error: "Bitte der Datenschutzerklärung zustimmen." },
+      { status: 400 },
+    );
   }
 
   const entry = {
@@ -82,7 +90,10 @@ export async function POST(req: Request) {
     email,
     phone: phone || null,
     message: message || null,
-    extra: { Garten: gardenType || null },
+    extra: {
+      Garten: gardenType || null,
+      Datenschutz: PRIVACY_NOTICE_VERSION,
+    },
   });
 
   // Forward to CRM Inbox
@@ -99,7 +110,7 @@ export async function POST(req: Request) {
         phone: phone || null,
         message: message || null,
         garden_type: gardenType || null,
-        privacy_notice_version: "2026-08-01",
+        privacy_notice_version: PRIVACY_NOTICE_VERSION,
         landing_page: clean(body.landing_page, 500) || "/projekt-anfragen/",
         referrer: body.referrer ? clean(body.referrer, 500) : null,
         utm: body.utm && typeof body.utm === "object" ? body.utm : null,

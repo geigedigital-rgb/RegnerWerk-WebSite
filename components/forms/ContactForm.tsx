@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
+import { pageAttribution } from "@/lib/attribution";
+import { ConsentCheckbox } from "@/components/forms/ConsentCheckbox";
 
 export function ContactForm({
   defaultGardenType,
@@ -21,6 +23,7 @@ export function ContactForm({
   const router = useRouter();
   const [started, setStarted] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   return (
     <form
@@ -36,10 +39,10 @@ export function ContactForm({
           track("form_start");
         }
       }}
-      onSubmit={(e) => {
+      onSubmit={async (e) => {
         e.preventDefault();
-        const data = new FormData(e.currentTarget);
-        // Honeypot — bots filling hidden field are rejected silently.
+        const form = e.currentTarget;
+        const data = new FormData(form);
         if (String(data.get("company_website") || "").trim()) {
           router.push("/anfrage-gesendet/");
           return;
@@ -49,12 +52,46 @@ export function ContactForm({
           setError("Bitte eine gültige E-Mail-Adresse angeben.");
           return;
         }
+        if (data.get("privacy") !== "on") {
+          setError("Bitte die Datenschutzerklärung bestätigen.");
+          return;
+        }
         setError(null);
-        track("form_submit");
-        router.push("/anfrage-gesendet/");
+        setLoading(true);
+        try {
+          const res = await fetch("/api/contact", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: String(data.get("name") || ""),
+              email,
+              phone: String(data.get("phone") || ""),
+              location: String(data.get("location") || ""),
+              gardenType: String(data.get("gardenType") || ""),
+              message: String(data.get("message") || ""),
+              contextTopic: String(data.get("contextTopic") || ""),
+              privacyAccepted: true,
+              ...pageAttribution(),
+            }),
+          });
+          const body = (await res.json().catch(() => null)) as {
+            error?: string;
+          } | null;
+          if (!res.ok) {
+            throw new Error(body?.error || "Senden fehlgeschlagen.");
+          }
+          track("form_submit");
+          router.push("/anfrage-gesendet/");
+        } catch (err) {
+          setLoading(false);
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Etwas ist schiefgelaufen. Bitte erneut versuchen.",
+          );
+        }
       }}
     >
-      {/* Honeypot — visually hidden, not for users */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -left-[9999px] h-0 w-0 overflow-hidden opacity-0"
@@ -144,23 +181,19 @@ export function ContactForm({
           />
         </label>
       ) : null}
-      <label className="flex items-start gap-3 text-sm text-gray-600">
-        <input type="checkbox" name="privacy" required className="mt-1" />
-        <span>
-          Ich stimme der Verarbeitung meiner Angaben gemäß{" "}
-          <a href="/datenschutz/" className="text-aqua-deep underline">
-            Datenschutzerklärung
-          </a>{" "}
-          zu.
-        </span>
-      </label>
+      <ConsentCheckbox compact={compact} />
       {error ? (
         <p className="text-sm font-medium text-red-700" role="alert">
           {error}
         </p>
       ) : null}
-      <Button type="submit" variant="primary" className="w-full sm:w-auto">
-        {submitLabel}
+      <Button
+        type="submit"
+        variant="primary"
+        className="w-full sm:w-auto"
+        disabled={loading}
+      >
+        {loading ? "Wird gesendet…" : submitLabel}
       </Button>
     </form>
   );

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { track } from "@/lib/analytics";
+import { pageAttribution } from "@/lib/attribution";
+import { ConsentCheckbox } from "@/components/forms/ConsentCheckbox";
 
 type Status = "idle" | "loading" | "error";
 
@@ -37,6 +39,10 @@ export function ProjektAnfrageForm() {
       setError("Bitte eine gültige E-Mail-Adresse angeben.");
       return;
     }
+    if (data.get("privacy") !== "on") {
+      setError("Bitte die Datenschutzerklärung bestätigen.");
+      return;
+    }
 
     setStatus("loading");
     setError(null);
@@ -45,7 +51,15 @@ export function ProjektAnfrageForm() {
       const res = await fetch("/api/projekt-anfrage", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, phone, message, gardenType }),
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          message,
+          gardenType,
+          privacyAccepted: true,
+          ...pageAttribution(),
+        }),
       });
       if (!res.ok) {
         const body = (await res.json().catch(() => null)) as {
@@ -160,6 +174,8 @@ export function ProjektAnfrageForm() {
           className="w-full resize-y rounded-2xl border border-gray-200 bg-white px-4 py-3.5 text-[0.9875rem] text-forest outline-none transition placeholder:text-gray-400 focus:border-aqua-deep focus:ring-2 focus:ring-aqua-deep/20"
         />
       </div>
+
+      <ConsentCheckbox />
 
       {error ? (
         <p className="text-sm font-medium text-red-600" role="alert">

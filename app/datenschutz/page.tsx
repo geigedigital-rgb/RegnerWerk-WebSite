@@ -118,8 +118,10 @@ export default function DatenschutzPage() {
               Wenn Sie uns per Formular, E-Mail oder Telefon kontaktieren,
               verarbeiten wir die von Ihnen mitgeteilten Daten (z. B. Name,
               E-Mail, optional Telefon, PLZ/Ort, Art des Gartens, Nachricht,
-              hochgeladene Fotos/Pläne), um Ihre Anfrage zu bearbeiten und – falls
-              gewünscht – ein Angebot vorzubereiten.
+              hochgeladene Fotos/Pläne, Plandaten aus dem Konfigurator), um Ihre
+              Anfrage zu bearbeiten, Sie zu kontaktieren und – falls gewünscht –
+              ein Angebot vorzubereiten. Der Download eines unverbindlichen
+              PDF-Plans allein begründet keinen Vertrag.
             </p>
             <p className="mt-3">
               Rechtsgrundlagen: Vertragserfüllung bzw. vorvertragliche Maßnahmen
@@ -142,20 +144,51 @@ export default function DatenschutzPage() {
 
           <div>
             <h2 className="text-xl font-bold text-forest">
-              5. Online-Rechner / Konfigurator
+              5. KI-gestützte Telefonie und Nachrichten
             </h2>
             <p className="mt-3">
-              Der Online-Rechner kann Eingaben zur vorläufigen Einschätzung
-              verarbeiten. Ergebnisse sind unverbindlich. Kontaktdaten sollen
-              erst erhoben werden, wenn ein nützliches Zwischenergebnis vorliegt
-              bzw. Sie die Übermittlung wünschen. Läuft der Rechner auf einer
-              anderen Domain, gelten zusätzlich die dortigen Hinweise.
+              Zur Bearbeitung von Anfragen können wir Sie per E-Mail, Telefon
+              oder Nachricht kontaktieren. Das umfasst auch, dass wir Sie
+              anrufen, Anrufe entgegennehmen und Gespräche führen. Dabei können
+              KI-gestützte Systeme eingesetzt werden (z.&nbsp;B. Sprachassistent,
+              Transkriptionshilfen, vorbereitete Antworten). Eine ausschließlich
+              automatisierte Entscheidung mit Rechtswirkung im Sinne von Art. 22
+              DSGVO findet nicht statt; Angebote und Verträge prüft ein Mensch.
+            </p>
+            <p className="mt-3">
+              Rechtsgrundlage: Ihre Einwilligung im Formular (Art. 6 Abs. 1 lit. a
+              DSGVO) sowie – soweit einschlägig – vorvertragliche Maßnahmen (Art. 6
+              Abs. 1 lit. b DSGVO). Widerruf der Einwilligung jederzeit mit
+              Wirkung für die Zukunft (z.&nbsp;B. an {legalEntity.contactEmail}).
+              Der Widerruf berührt nicht die Rechtmäßigkeit der bis dahin
+              erfolgten Verarbeitung.
+            </p>
+            <p className="mt-3 text-sm">
+              Telefonate können je nach technischer Einrichtung bei
+              Dienstleistern verarbeitet werden. Eine dauerhafte
+              Gesprächsaufzeichnung erfolgt nur, soweit dies gesondert
+              kenntlich gemacht und rechtlich zulässig ist.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-bold text-forest">
-              6. Cookies und Einwilligung
+              6. Online-Rechner / Konfigurator
+            </h2>
+            <p className="mt-3">
+              Der Online-Rechner kann Eingaben zur vorläufigen Einschätzung
+              verarbeiten. Ergebnisse und PDF-Pläne sind unverbindlich. Name,
+              E-Mail und optional Telefon werden erst übermittelt, wenn Sie das
+              Formular absenden und der Datenschutzerklärung zustimmen. Läuft
+              der Rechner auf einer anderen Domain, gilt diese Erklärung
+              gleichwohl für die dort erhobenen Kontaktdaten, soweit
+              RegnerWerk Verantwortliche ist.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-xl font-bold text-forest">
+              7. Cookies und Einwilligung
             </h2>
             <p className="mt-3">
               Notwendige Cookies/Speicherungen (z. B. Speicherung Ihrer
@@ -176,7 +209,7 @@ export default function DatenschutzPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-forest">7. Analyse-Events</h2>
+            <h2 className="text-xl font-bold text-forest">8. Analyse-Events</h2>
             <p className="mt-3">
               Nach Einwilligung können Ereignisse wie Klicks auf „Garten
               berechnen“, Formularstart/-absenden, Telefonklicks oder
@@ -187,19 +220,21 @@ export default function DatenschutzPage() {
 
           <div>
             <h2 className="text-xl font-bold text-forest">
-              8. Empfänger und Auftragsverarbeitung
+              9. Empfänger und Auftragsverarbeitung
             </h2>
             <p className="mt-3">
               Empfänger können sein: Hosting-/E-Mail-/Formular-Dienstleister,
-              ggf. Fachpartner nur soweit zur Anfragebearbeitung erforderlich und
-              rechtlich zulässig. Eine Weitergabe zu Werbezwecken Dritter ohne
+              Messenger zur internen Entgegennahme von Anfragen (z.&nbsp;B.
+              Telegram), Sprach-/KI-Dienstleister für Telefonie, ggf. Fachpartner
+              nur soweit zur Anfragebearbeitung erforderlich und rechtlich
+              zulässig. Eine Weitergabe zu Werbezwecken Dritter ohne
               Rechtsgrundlage findet nicht statt.
             </p>
           </div>
 
           <div>
             <h2 className="text-xl font-bold text-forest">
-              9. Drittlandtransfers
+              10. Drittlandtransfers
             </h2>
             <p className="mt-3">
               Soweit Tools oder Hosting Daten außerhalb des EWR verarbeiten,
@@ -211,7 +246,7 @@ export default function DatenschutzPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-forest">10. Ihre Rechte</h2>
+            <h2 className="text-xl font-bold text-forest">11. Ihre Rechte</h2>
             <p className="mt-3">
               Soweit die DSGVO anwendbar ist, stehen Ihnen insbesondere zu:
               Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung,
@@ -226,7 +261,7 @@ export default function DatenschutzPage() {
 
           <div>
             <h2 className="text-xl font-bold text-forest">
-              11. Keine automatisierte Entscheidung
+              12. Keine automatisierte Entscheidung
             </h2>
             <p className="mt-3">
               Es findet keine ausschließlich automatisierte Entscheidungsfindung
@@ -236,7 +271,7 @@ export default function DatenschutzPage() {
           </div>
 
           <div>
-            <h2 className="text-xl font-bold text-forest">12. Änderungen</h2>
+            <h2 className="text-xl font-bold text-forest">13. Änderungen</h2>
             <p className="mt-3">
               Wir passen diese Erklärung an, wenn sich Technik, Recht oder
               Prozesse ändern. Es gilt die jeweils auf dieser Seite veröffentlichte
