@@ -19,9 +19,6 @@ export function Hero() {
 
       <Container className="relative flex min-h-[100svh] flex-col justify-center pb-20 pt-28">
         <FadeIn className="max-w-3xl">
-          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.18em] text-lime">
-            RegnerWerk
-          </p>
           <h1 className="text-[clamp(2.25rem,5vw,4rem)] font-light leading-[1.08] tracking-tight text-white">
             {homeHero.h1Lead}{" "}
             <span className="font-bold">{homeHero.h1Bold}</span>
