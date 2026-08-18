@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { Container } from "@/components/ui/Container";
 import { footerNav, legalNav } from "@/lib/content/nav";
 import { cityPath, featuredCities } from "@/lib/content/cities";
@@ -10,10 +11,10 @@ export function Footer() {
       <Container className="py-16 lg:py-20">
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="text-lg font-bold">
-              Regner<span className="text-lime">Werk</span>
-            </p>
-            <p className="mt-3 text-sm leading-relaxed text-white/65">
+            <Link href="/" aria-label="RegnerWerk – Startseite" className="inline-block">
+              <BrandLogo variant="onDark" className="h-8 w-auto" />
+            </Link>
+            <p className="mt-4 text-sm leading-relaxed text-white/65">
               {site.tagline} Für private Gärten in Deutschland – vom Wassercheck
               bis zur Nachjustierung.
             </p>

@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "next dev --port 3000",
     "build": "next build",
+    "brand:export": "node scripts/export-brand.mjs",
     "start": "next start --hostname 0.0.0.0 --port ${PORT:-3000}",
     "lint": "eslint"
   },

@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
+import { BrandLogo } from "@/components/brand/BrandLogo";
 import { calcHref, nav } from "@/lib/content/nav";
 import { track } from "@/lib/analytics";
 import { site, telHref } from "@/lib/site";
@@ -33,12 +34,10 @@ export function Header() {
       <Container className="flex h-16 items-center justify-between lg:h-20">
         <Link
           href="/"
-          className={`text-lg font-bold tracking-tight transition-colors ${
-            solid ? "text-forest" : "text-white"
-          }`}
+          aria-label="RegnerWerk – Startseite"
+          className="block shrink-0"
         >
-          Regner
-          <span className={solid ? "text-aqua-deep" : "text-lime"}>Werk</span>
+          <BrandLogo variant={solid ? "color" : "onDark"} />
         </Link>
 
         <nav className="hidden items-center gap-7 lg:flex">

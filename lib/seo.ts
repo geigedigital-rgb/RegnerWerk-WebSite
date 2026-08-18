@@ -25,7 +25,7 @@ export function buildMetadata({
   ogImage,
 }: SeoInput): Metadata {
   const url = absoluteUrl(path);
-  const image = ogImage || "/images/hero-garden.webp";
+  const image = ogImage || "/og.png";
 
   return {
     title,
@@ -60,6 +60,7 @@ export function organizationSchema() {
     name: site.name,
     legalName: site.legalName,
     url: siteUrl,
+    logo: `${siteUrl}/brand/logo-horizontal.png`,
     email: site.email,
     telephone: site.phone,
     identifier: "16035252",
@@ -90,6 +91,8 @@ export function localBusinessSchema() {
     name: site.name,
     description: site.tagline,
     url: siteUrl,
+    image: `${siteUrl}/og.png`,
+    logo: `${siteUrl}/brand/logo-horizontal.png`,
     email: site.email,
     telephone: site.phone,
     areaServed: [
