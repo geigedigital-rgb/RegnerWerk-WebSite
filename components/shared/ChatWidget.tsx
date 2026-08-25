@@ -7,9 +7,31 @@ import { site, telHref } from "@/lib/site";
 
 type ChatMsg = { role: "user" | "assistant"; content: string };
 type View = "chat" | "callback" | "done";
+type HandoffReason = "price" | "uncertain" | "request";
 
 const WELCOME =
   "Hallo — ich bin der digitale Assistent von RegnerWerk. Wobei kann ich helfen?";
+
+const HANDOFF_COPY: Record<
+  HandoffReason,
+  { title: string; body: string; cta: string }
+> = {
+  price: {
+    title: "Warum wir nach Kontaktdaten fragen",
+    body: "Verbindliche Preise gibt es erst nach Prüfung von Fläche, Wasser und Aufwand. Das Fachteam meldet sich mit einer Einschätzung.",
+    cta: "Kontaktdaten hinterlassen",
+  },
+  uncertain: {
+    title: "Warum das Team sinnvoll ist",
+    body: "Dazu reicht die allgemeine Info im Chat nicht. Ein kurzer Rückruf klärt Ihr Objekt zuverlässig.",
+    cta: "Rückruf vorbereiten",
+  },
+  request: {
+    title: "Rückruf vorbereiten",
+    body: "Gerne — hinterlassen Sie kurz Name und Telefon oder E-Mail. Wir melden uns.",
+    cta: "Weiter zur Angabe",
+  },
+};
 
 const fieldClass =
   "w-full rounded-2xl border border-gray-100 bg-ice px-3.5 py-2.5 text-[15px] leading-snug text-forest outline-none placeholder:text-gray-400 focus:border-aqua-deep";
@@ -30,12 +52,16 @@ export function ChatWidget() {
   const [error, setError] = useState<string | null>(null);
   const [reference, setReference] = useState<string | null>(null);
   const [offerCallback, setOfferCallback] = useState(false);
+  const [handoffReason, setHandoffReason] =
+    useState<HandoffReason>("uncertain");
   const [contact, setContact] = useState({
     name: "",
     phone: "",
     email: "",
     privacy: false,
   });
+
+  const handoffCopy = HANDOFF_COPY[handoffReason];
 
   useEffect(() => {
     if (!open) return;
@@ -72,6 +98,7 @@ export function ChatWidget() {
       const data = (await res.json()) as {
         reply?: string;
         need_contact?: boolean;
+        handoff_reason?: HandoffReason | null;
         error?: string;
       };
       if (!res.ok) throw new Error(data.error || "Chat nicht erreichbar");
@@ -79,8 +106,16 @@ export function ChatWidget() {
         ...prev,
         { role: "assistant", content: data.reply || "…" },
       ]);
-      // Stay in chat — only gently offer callback; never force the form.
-      if (data.need_contact) setOfferCallback(true);
+      // Soft bridge only — never jump straight into the form.
+      if (data.need_contact) {
+        const reason = data.handoff_reason;
+        setHandoffReason(
+          reason === "price" || reason === "uncertain" || reason === "request"
+            ? reason
+            : "uncertain",
+        );
+        setOfferCallback(true);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Fehler");
     } finally {
@@ -203,11 +238,14 @@ export function ChatWidget() {
                   <p className="mb-2 px-1 text-xs leading-snug text-red-700">{error}</p>
                 ) : null}
                 {offerCallback ? (
-                  <div className="mb-2 rounded-2xl bg-mint/80 px-3 py-2.5">
-                    <p className="text-sm leading-snug text-forest">
-                      Möchten Sie einen Rückruf vom Team?
+                  <div className="mb-2 rounded-2xl border border-gray-100 bg-mint/70 px-3.5 py-3">
+                    <p className="text-sm font-semibold tracking-tight text-forest">
+                      {handoffCopy.title}
                     </p>
-                    <div className="mt-2 flex gap-2">
+                    <p className="mt-1 text-sm leading-relaxed text-gray-600">
+                      {handoffCopy.body}
+                    </p>
+                    <div className="mt-3 flex flex-wrap gap-2">
                       <button
                         type="button"
                         onClick={() => {
@@ -215,16 +253,16 @@ export function ChatWidget() {
                           setOfferCallback(false);
                           setView("callback");
                         }}
-                        className="rounded-full bg-lime px-3.5 py-1.5 text-xs font-semibold text-forest"
+                        className="rounded-full bg-lime px-3.5 py-2 text-xs font-semibold text-forest"
                       >
-                        Ja, Rückruf
+                        {handoffCopy.cta}
                       </button>
                       <button
                         type="button"
                         onClick={() => setOfferCallback(false)}
-                        className="rounded-full px-3 py-1.5 text-xs text-gray-500 hover:text-forest"
+                        className="rounded-full px-3 py-2 text-xs text-gray-500 hover:text-forest"
                       >
-                        Weiter chatten
+                        Erst weiter chatten
                       </button>
                     </div>
                   </div>
@@ -282,10 +320,10 @@ export function ChatWidget() {
                 </button>
                 <div>
                   <h2 className="text-base font-semibold tracking-tight text-forest">
-                    Rückruf
+                    {handoffCopy.title}
                   </h2>
                   <p className="mt-1 text-sm leading-relaxed text-gray-600">
-                    Kurz Kontaktdaten hinterlassen — wir melden uns.
+                    {handoffCopy.body}
                   </p>
                 </div>
                 <label className="block">
