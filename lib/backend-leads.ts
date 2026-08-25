@@ -3,12 +3,7 @@
  * Server-only — never expose service keys; only BACKEND_URL / NEXT_PUBLIC_API_URL.
  */
 
-const BACKEND =
-  (
-    process.env.BACKEND_URL ||
-    process.env.NEXT_PUBLIC_API_URL ||
-    "http://localhost:3001"
-  ).replace(/\/$/, "");
+import { getBackendUrl } from "@/lib/backend";
 
 export type SiteLeadPayload = {
   submission_id: string;
@@ -30,7 +25,7 @@ export async function forwardLeadToBackend(
   payload: SiteLeadPayload,
 ): Promise<{ ok: true; reference: string } | { ok: false; error: string }> {
   try {
-    const res = await fetch(`${BACKEND}/api/public/leads`, {
+    const res = await fetch(`${getBackendUrl()}/api/public/leads`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),
