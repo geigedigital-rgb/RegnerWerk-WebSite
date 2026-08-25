@@ -65,18 +65,20 @@ export async function POST(req: Request) {
     company_website: null,
   };
 
-  const telegramOk = await sendTelegramLead({
-    source: "Website · Support-Chat",
-    name,
-    email,
-    phone,
-    message: body.message ? clean(body.message, 500) : "Chat-Rückruf",
-    extra: {
-      Seite: payload.landing_page,
-      Datenschutz: PRIVACY_NOTICE_VERSION,
-      Nachrichten: String(body.messages?.length ?? 0),
-    },
-  });
+  const telegramFallback = () =>
+    sendTelegramLead({
+      source: "Website · Support-Chat",
+      name,
+      email,
+      phone,
+      message: body.message ? clean(body.message, 500) : "Chat-Rückruf",
+      extra: {
+        Seite: payload.landing_page,
+        Datenschutz: PRIVACY_NOTICE_VERSION,
+        Nachrichten: String(body.messages?.length ?? 0),
+        Hinweis: "CRM offline — nur Telegram",
+      },
+    });
 
   try {
     const res = await fetch(
@@ -94,6 +96,7 @@ export async function POST(req: Request) {
     };
     if (!res.ok) {
       console.error("[support-chat/handoff] backend", res.status, data);
+      const telegramOk = await telegramFallback();
       if (telegramOk) {
         return NextResponse.json({ ok: true, reference: "TG", accepted: true });
       }
@@ -109,6 +112,7 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("[support-chat/handoff] unreachable", err);
+    const telegramOk = await telegramFallback();
     if (telegramOk) {
       return NextResponse.json({ ok: true, reference: "TG", accepted: true });
     }

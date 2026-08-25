@@ -84,19 +84,21 @@ export async function POST(req: Request) {
 
   console.info("[projekt-anfrage]", JSON.stringify(entry));
 
-  const telegramOk = await sendTelegramLead({
-    source: "Website · Projekt-Anfrage",
-    name,
-    email,
-    phone: phone || null,
-    message: message || null,
-    extra: {
-      Garten: gardenType || null,
-      Datenschutz: PRIVACY_NOTICE_VERSION,
-    },
-  });
+  const telegramFallback = () =>
+    sendTelegramLead({
+      source: "Website · Projekt-Anfrage",
+      name,
+      email,
+      phone: phone || null,
+      message: message || null,
+      extra: {
+        Garten: gardenType || null,
+        Datenschutz: PRIVACY_NOTICE_VERSION,
+        Hinweis: "CRM offline — nur Telegram",
+      },
+    });
 
-  // Forward to CRM Inbox
+  // Forward to CRM Inbox (Telegram is sent by admin processPublicLead)
   let reference: string | undefined;
   try {
     const res = await fetch(`${getBackendUrl()}/api/public/leads`, {
@@ -124,6 +126,7 @@ export async function POST(req: Request) {
     };
     if (!res.ok) {
       console.error("[projekt-anfrage] CRM forward failed", res.status, data);
+      const telegramOk = await telegramFallback();
       if (telegramOk) {
         return NextResponse.json({ ok: true, id: entry.id, reference: "TG" });
       }
@@ -135,6 +138,7 @@ export async function POST(req: Request) {
     reference = data.reference;
   } catch (err) {
     console.error("[projekt-anfrage] CRM unreachable", err);
+    const telegramOk = await telegramFallback();
     if (telegramOk) {
       return NextResponse.json({ ok: true, id: entry.id, reference: "TG" });
     }

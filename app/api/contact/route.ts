@@ -82,19 +82,21 @@ export async function POST(req: Request) {
     callback_consent: true,
   };
 
-  const telegramOk = await sendTelegramLead({
-    source: formType === "service" ? "Website · Service" : "Website · Kontakt",
-    name,
-    email,
-    phone: phone || null,
-    message: message || null,
-    extra: {
-      Ort: location || null,
-      Garten: gardenType || null,
-      Thema: contextTopic || null,
-      Datenschutz: PRIVACY_NOTICE_VERSION,
-    },
-  });
+  const telegramFallback = () =>
+    sendTelegramLead({
+      source: formType === "service" ? "Website · Service" : "Website · Kontakt",
+      name,
+      email,
+      phone: phone || null,
+      message: message || null,
+      extra: {
+        Ort: location || null,
+        Garten: gardenType || null,
+        Thema: contextTopic || null,
+        Datenschutz: PRIVACY_NOTICE_VERSION,
+        Hinweis: "CRM offline — nur Telegram",
+      },
+    });
 
   try {
     const res = await fetch(`${getBackendUrl()}/api/public/leads`, {
@@ -109,6 +111,7 @@ export async function POST(req: Request) {
     };
     if (!res.ok) {
       console.error("[contact] backend", res.status, data);
+      const telegramOk = await telegramFallback();
       if (telegramOk) {
         return NextResponse.json({
           ok: true,
@@ -121,6 +124,7 @@ export async function POST(req: Request) {
         { status: 502 },
       );
     }
+    // CRM (+ Telegram from admin) succeeded
     return NextResponse.json({
       ok: true,
       reference: data.reference,
@@ -128,6 +132,7 @@ export async function POST(req: Request) {
     });
   } catch (err) {
     console.error("[contact] backend unreachable", err);
+    const telegramOk = await telegramFallback();
     if (telegramOk) {
       return NextResponse.json({
         ok: true,
