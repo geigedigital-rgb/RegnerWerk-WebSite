@@ -10,20 +10,20 @@ type View = "chat" | "callback" | "done";
 type HandoffReason = "price" | "uncertain" | "request";
 
 const WELCOME =
-  "Hallo — ich bin der digitale Assistent von RegnerWerk. Wobei kann ich helfen?";
+  "Hallo — womit kann ich helfen? Zum Beispiel neue Anlage, Reparatur oder eine kurze Frage zum Garten.";
 
 const HANDOFF_COPY: Record<
   HandoffReason,
   { title: string; body: string; cta: string }
 > = {
   price: {
-    title: "Warum wir nach Kontaktdaten fragen",
-    body: "Verbindliche Preise gibt es erst nach Prüfung von Fläche, Wasser und Aufwand. Das Fachteam meldet sich mit einer Einschätzung.",
+    title: "Kein Festpreis im Chat",
+    body: "Kosten hängen von Fläche, Wasser und Aufwand ab. Wenn Sie ein Angebot wollen, reicht ein kurzer Rückruf.",
     cta: "Kontaktdaten hinterlassen",
   },
   uncertain: {
-    title: "Warum das Team sinnvoll ist",
-    body: "Dazu reicht die allgemeine Info im Chat nicht. Ein kurzer Rückruf klärt Ihr Objekt zuverlässig.",
+    title: "Dazu brauchen wir mehr vom Objekt",
+    body: "Im Chat fehlt oft Fläche, Wasser oder Lage. Das Team klärt das am Telefon schneller.",
     cta: "Rückruf vorbereiten",
   },
   request: {
@@ -34,7 +34,7 @@ const HANDOFF_COPY: Record<
 };
 
 const fieldClass =
-  "w-full rounded-2xl border border-gray-100 bg-ice px-3.5 py-2.5 text-[15px] leading-snug text-forest outline-none placeholder:text-gray-400 focus:border-aqua-deep";
+  "w-full rounded-xl border border-gray-100 bg-ice px-3 py-2 text-[13px] leading-snug text-forest outline-none placeholder:text-gray-400 focus:border-aqua-deep";
 
 export function ChatWidget() {
   const panelId = useId();
@@ -177,7 +177,7 @@ export function ChatWidget() {
         aria-expanded={open}
         aria-controls={panelId}
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-24 right-4 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-forest text-lime shadow-soft transition hover:bg-forest-mid lg:bottom-6 lg:right-6"
+        className="fixed bottom-24 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-forest text-lime shadow-soft transition hover:bg-forest-mid lg:bottom-6 lg:right-6"
       >
         {open ? <X className="h-5 w-5" strokeWidth={2} /> : <MessageCircle className="h-5 w-5" strokeWidth={2} />}
         <span className="sr-only">{open ? "Chat schließen" : "Chat öffnen"}</span>
@@ -188,64 +188,64 @@ export function ChatWidget() {
           id={panelId}
           role="dialog"
           aria-label="Support-Chat"
-          className="fixed inset-x-3 bottom-[7.25rem] z-50 flex h-[min(72vh,36rem)] max-h-[calc(100dvh-9rem)] w-auto flex-col overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-soft sm:inset-x-auto sm:right-4 sm:bottom-40 sm:w-[24rem] lg:right-6 lg:bottom-24 lg:h-[min(74vh,38rem)]"
+          className="fixed inset-x-3 bottom-[7.25rem] z-50 flex h-[min(62vh,28rem)] max-h-[calc(100dvh-9rem)] w-auto flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft sm:inset-x-auto sm:right-4 sm:bottom-36 sm:w-[20.5rem] lg:right-6 lg:bottom-24 lg:h-[min(64vh,30rem)]"
         >
           {/* Header */}
-          <header className="flex shrink-0 items-center justify-between gap-3 border-b border-gray-100 px-4 py-3.5">
+          <header className="flex shrink-0 items-center justify-between gap-2 border-b border-gray-100 px-3 py-2.5">
             <div className="min-w-0">
-              <p className="truncate text-[15px] font-semibold tracking-tight text-forest">
+              <p className="truncate text-[13px] font-semibold tracking-tight text-forest">
                 {site.name}
               </p>
-              <p className="text-xs text-gray-400">Support · digitaler Assistent</p>
+              <p className="text-[11px] text-gray-400">Support</p>
             </div>
             <button
               type="button"
               onClick={close}
-              className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-50 hover:text-forest"
+              className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-gray-400 transition hover:bg-gray-50 hover:text-forest"
               aria-label="Schließen"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" />
             </button>
           </header>
 
           {/* Body */}
           {view === "chat" ? (
             <>
-              <div className="flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 py-4">
+              <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 py-3">
                 {messages.map((m, i) => (
                   <div
                     key={`${m.role}-${i}`}
                     className={
                       m.role === "user"
-                        ? "ml-10 self-end rounded-2xl rounded-br-md bg-forest px-3.5 py-2.5 text-[15px] leading-relaxed text-white"
-                        : "mr-6 self-start rounded-2xl rounded-bl-md bg-ice px-3.5 py-2.5 text-[15px] leading-relaxed text-forest"
+                        ? "ml-8 self-end rounded-xl rounded-br-md bg-forest px-3 py-2 text-[13px] leading-snug text-white"
+                        : "mr-5 self-start rounded-xl rounded-bl-md bg-ice px-3 py-2 text-[13px] leading-snug text-forest"
                     }
                   >
                     {m.content}
                   </div>
                 ))}
                 {busy ? (
-                  <div className="flex items-center gap-2 text-sm text-gray-400">
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                  <div className="flex items-center gap-1.5 text-[12px] text-gray-400">
+                    <Loader2 className="h-3.5 w-3.5 animate-spin" />
                     <span>Antwortet…</span>
                   </div>
                 ) : null}
                 <div ref={bottomRef} />
               </div>
 
-              <footer className="shrink-0 border-t border-gray-100 px-3 pb-3 pt-2">
+              <footer className="shrink-0 border-t border-gray-100 px-2.5 pb-2.5 pt-2">
                 {error ? (
-                  <p className="mb-2 px-1 text-xs leading-snug text-red-700">{error}</p>
+                  <p className="mb-1.5 px-1 text-[11px] leading-snug text-red-700">{error}</p>
                 ) : null}
                 {offerCallback ? (
-                  <div className="mb-2 rounded-2xl border border-gray-100 bg-mint/70 px-3.5 py-3">
-                    <p className="text-sm font-semibold tracking-tight text-forest">
+                  <div className="mb-2 rounded-xl border border-gray-100 bg-mint/70 px-3 py-2">
+                    <p className="text-[12px] font-semibold tracking-tight text-forest">
                       {handoffCopy.title}
                     </p>
-                    <p className="mt-1 text-sm leading-relaxed text-gray-600">
+                    <p className="mt-0.5 text-[12px] leading-snug text-gray-600">
                       {handoffCopy.body}
                     </p>
-                    <div className="mt-3 flex flex-wrap gap-2">
+                    <div className="mt-2 flex flex-wrap gap-1.5">
                       <button
                         type="button"
                         onClick={() => {
@@ -253,21 +253,21 @@ export function ChatWidget() {
                           setOfferCallback(false);
                           setView("callback");
                         }}
-                        className="rounded-full bg-lime px-3.5 py-2 text-xs font-semibold text-forest"
+                        className="rounded-full bg-lime px-3 py-1.5 text-[11px] font-semibold text-forest"
                       >
                         {handoffCopy.cta}
                       </button>
                       <button
                         type="button"
                         onClick={() => setOfferCallback(false)}
-                        className="rounded-full px-3 py-2 text-xs text-gray-500 hover:text-forest"
+                        className="rounded-full px-2.5 py-1.5 text-[11px] text-gray-500 hover:text-forest"
                       >
-                        Erst weiter chatten
+                        Weiter fragen
                       </button>
                     </div>
                   </div>
                 ) : null}
-                <form onSubmit={(e) => void sendMessage(e)} className="flex items-end gap-2">
+                <form onSubmit={(e) => void sendMessage(e)} className="flex items-end gap-1.5">
                   <input
                     ref={inputRef}
                     value={input}
@@ -279,10 +279,10 @@ export function ChatWidget() {
                   <button
                     type="submit"
                     disabled={busy || !input.trim()}
-                    className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-lime text-forest transition hover:bg-lime-hover disabled:opacity-40"
+                    className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-lime text-forest transition hover:bg-lime-hover disabled:opacity-40"
                     aria-label="Senden"
                   >
-                    <Send className="h-4 w-4" />
+                    <Send className="h-3.5 w-3.5" />
                   </button>
                 </form>
                 {!offerCallback ? (
@@ -292,7 +292,7 @@ export function ChatWidget() {
                       setError(null);
                       setView("callback");
                     }}
-                    className="mt-2 w-full py-1 text-center text-xs text-gray-400 transition hover:text-aqua-deep"
+                    className="mt-1 w-full py-0.5 text-center text-[11px] text-gray-400 transition hover:text-aqua-deep"
                   >
                     Rückruf anfragen
                   </button>
@@ -306,23 +306,23 @@ export function ChatWidget() {
               onSubmit={(e) => void submitHandoff(e)}
               className="flex min-h-0 flex-1 flex-col"
             >
-              <div className="min-h-0 flex-1 space-y-3 overflow-y-auto px-4 py-4">
+              <div className="min-h-0 flex-1 space-y-2.5 overflow-y-auto px-3 py-3">
                 <button
                   type="button"
                   onClick={() => {
                     setError(null);
                     setView("chat");
                   }}
-                  className="inline-flex items-center gap-1.5 text-sm text-gray-500 transition hover:text-forest"
+                  className="inline-flex items-center gap-1 text-[12px] text-gray-500 transition hover:text-forest"
                 >
-                  <ArrowLeft className="h-4 w-4" />
+                  <ArrowLeft className="h-3.5 w-3.5" />
                   Zurück zum Chat
                 </button>
                 <div>
-                  <h2 className="text-base font-semibold tracking-tight text-forest">
+                  <h2 className="text-[13px] font-semibold tracking-tight text-forest">
                     {handoffCopy.title}
                   </h2>
-                  <p className="mt-1 text-sm leading-relaxed text-gray-600">
+                  <p className="mt-1 text-[12px] leading-snug text-gray-600">
                     {handoffCopy.body}
                   </p>
                 </div>
@@ -380,7 +380,7 @@ export function ChatWidget() {
                     companyWebsite.current = e.target.value;
                   }}
                 />
-                <label className="flex items-start gap-2.5 text-sm leading-snug text-gray-600">
+                <label className="flex items-start gap-2 text-[12px] leading-snug text-gray-600">
                   <input
                     type="checkbox"
                     checked={contact.privacy}
@@ -404,11 +404,11 @@ export function ChatWidget() {
                   <p className="text-xs leading-snug text-red-700">{error}</p>
                 ) : null}
               </div>
-              <div className="shrink-0 border-t border-gray-100 p-3">
+              <div className="shrink-0 border-t border-gray-100 p-2.5">
                 <button
                   type="submit"
                   disabled={busy}
-                  className="w-full rounded-full bg-lime py-3 text-sm font-semibold text-forest transition hover:bg-lime-hover disabled:opacity-50"
+                  className="w-full rounded-full bg-lime py-2 text-[13px] font-semibold text-forest transition hover:bg-lime-hover disabled:opacity-50"
                 >
                   {busy ? "Senden…" : "Absenden"}
                 </button>
@@ -417,17 +417,17 @@ export function ChatWidget() {
           ) : null}
 
           {view === "done" ? (
-            <div className="flex flex-1 flex-col justify-center gap-4 px-6 py-8 text-center">
-              <p className="text-base font-semibold tracking-tight text-forest">
+            <div className="flex flex-1 flex-col justify-center gap-3 px-5 py-6 text-center">
+              <p className="text-[13px] font-semibold tracking-tight text-forest">
                 Danke — wir melden uns.
               </p>
               {reference ? (
-                <p className="text-sm text-gray-600">
+                <p className="text-[12px] text-gray-600">
                   Referenz{" "}
                   <span className="font-medium text-forest">{reference}</span>
                 </p>
               ) : null}
-              <p className="text-sm text-gray-500">
+              <p className="text-[12px] text-gray-500">
                 Dringend?{" "}
                 <a
                   href={telHref()}
@@ -442,7 +442,7 @@ export function ChatWidget() {
                   setView("chat");
                   setError(null);
                 }}
-                className="mx-auto mt-2 text-sm text-gray-400 hover:text-forest"
+                className="mx-auto mt-1 text-[12px] text-gray-400 hover:text-forest"
               >
                 Weiter chatten
               </button>
