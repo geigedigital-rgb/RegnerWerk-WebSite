@@ -1,11 +1,23 @@
 "use client";
 
 import { FormEvent, useEffect, useId, useRef, useState } from "react";
-import { ArrowLeft, Loader2, MessageCircle, Send, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowUpRight,
+  Loader2,
+  MessageCircle,
+  Send,
+  X,
+} from "lucide-react";
 import Link from "next/link";
-import { site, telHref } from "@/lib/site";
+import { site, telHref, konfiguratorEntryUrl } from "@/lib/site";
+import { track } from "@/lib/analytics";
 
-type ChatMsg = { role: "user" | "assistant"; content: string };
+type ChatMsg = {
+  role: "user" | "assistant";
+  content: string;
+  showConfigurator?: boolean;
+};
 type View = "chat" | "callback" | "done";
 type HandoffReason = "price" | "uncertain" | "request";
 
@@ -18,12 +30,12 @@ const HANDOFF_COPY: Record<
 > = {
   price: {
     title: "Kein Festpreis im Chat",
-    body: "Kosten hängen von Fläche, Wasser und Aufwand ab. Wenn Sie ein Angebot wollen, reicht ein kurzer Rückruf.",
+    body: "Kosten hängen von Fläche und Aufwand ab. Für ein Angebot reichen kurze Kontaktdaten.",
     cta: "Kontaktdaten hinterlassen",
   },
   uncertain: {
-    title: "Dazu brauchen wir mehr vom Objekt",
-    body: "Im Chat fehlt oft Fläche, Wasser oder Lage. Das Team klärt das am Telefon schneller.",
+    title: "Dazu brauchen wir das Team",
+    body: "Für eine verlässliche Einschätzung hilft ein kurzer Rückruf besser als der Chat.",
     cta: "Rückruf vorbereiten",
   },
   request: {
@@ -84,6 +96,7 @@ export function ChatWidget() {
     setInput("");
     setBusy(true);
     setError(null);
+    setOfferCallback(false);
 
     try {
       const res = await fetch("/api/support-chat", {
@@ -99,14 +112,18 @@ export function ChatWidget() {
         reply?: string;
         need_contact?: boolean;
         handoff_reason?: HandoffReason | null;
+        show_configurator?: boolean;
         error?: string;
       };
       if (!res.ok) throw new Error(data.error || "Chat nicht erreichbar");
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: data.reply || "…" },
+        {
+          role: "assistant",
+          content: data.reply || "…",
+          showConfigurator: Boolean(data.show_configurator),
+        },
       ]);
-      // Soft bridge only — never jump straight into the form.
       if (data.need_contact) {
         const reason = data.handoff_reason;
         setHandoffReason(
@@ -144,7 +161,10 @@ export function ChatWidget() {
           name: contact.name.trim() || "Website-Besucher",
           phone: contact.phone.trim() || null,
           email: contact.email.trim() || null,
-          messages,
+          messages: messages.map((m) => ({
+            role: m.role,
+            content: m.content,
+          })),
           landing_page:
             typeof window !== "undefined" ? window.location.pathname : "/",
           referrer: typeof document !== "undefined" ? document.referrer : null,
@@ -179,7 +199,11 @@ export function ChatWidget() {
         onClick={() => setOpen((v) => !v)}
         className="fixed bottom-24 right-4 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-forest text-lime shadow-soft transition hover:bg-forest-mid lg:bottom-6 lg:right-6"
       >
-        {open ? <X className="h-5 w-5" strokeWidth={2} /> : <MessageCircle className="h-5 w-5" strokeWidth={2} />}
+        {open ? (
+          <X className="h-5 w-5" strokeWidth={2} />
+        ) : (
+          <MessageCircle className="h-5 w-5" strokeWidth={2} />
+        )}
         <span className="sr-only">{open ? "Chat schließen" : "Chat öffnen"}</span>
       </button>
 
@@ -190,7 +214,6 @@ export function ChatWidget() {
           aria-label="Support-Chat"
           className="fixed inset-x-3 bottom-[7.25rem] z-50 flex h-[min(62vh,28rem)] max-h-[calc(100dvh-9rem)] w-auto flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-soft sm:inset-x-auto sm:right-4 sm:bottom-36 sm:w-[20.5rem] lg:right-6 lg:bottom-24 lg:h-[min(64vh,30rem)]"
         >
-          {/* Header */}
           <header className="flex shrink-0 items-center justify-between gap-2 border-b border-gray-100 px-3 py-2.5">
             <div className="min-w-0">
               <p className="truncate text-[13px] font-semibold tracking-tight text-forest">
@@ -208,20 +231,41 @@ export function ChatWidget() {
             </button>
           </header>
 
-          {/* Body */}
           {view === "chat" ? (
             <>
               <div className="flex min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-3 py-3">
                 {messages.map((m, i) => (
-                  <div
-                    key={`${m.role}-${i}`}
-                    className={
-                      m.role === "user"
-                        ? "ml-8 self-end rounded-xl rounded-br-md bg-forest px-3 py-2 text-[13px] leading-snug text-white"
-                        : "mr-5 self-start rounded-xl rounded-bl-md bg-ice px-3 py-2 text-[13px] leading-snug text-forest"
-                    }
-                  >
-                    {m.content}
+                  <div key={`${m.role}-${i}`} className="flex flex-col gap-1.5">
+                    <div
+                      className={
+                        m.role === "user"
+                          ? "ml-8 self-end rounded-xl rounded-br-md bg-forest px-3 py-2 text-[13px] leading-snug text-white"
+                          : "mr-5 self-start rounded-xl rounded-bl-md bg-ice px-3 py-2 text-[13px] leading-snug text-forest"
+                      }
+                    >
+                      {m.content}
+                    </div>
+                    {m.role === "assistant" && m.showConfigurator ? (
+                      <div className="mr-5 rounded-xl border border-gray-100 bg-white p-2.5">
+                        <p className="text-[11px] leading-snug text-gray-500">
+                          Garten selbst planen
+                        </p>
+                        <a
+                          href={konfiguratorEntryUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={() =>
+                            track("garten_berechnen_click", {
+                              source: "support_chat",
+                            })
+                          }
+                          className="mt-1.5 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-lime px-3 py-2 text-[12px] font-semibold text-forest transition hover:bg-lime-hover"
+                        >
+                          Garten berechnen
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                        </a>
+                      </div>
+                    ) : null}
                   </div>
                 ))}
                 {busy ? (
@@ -235,7 +279,9 @@ export function ChatWidget() {
 
               <footer className="shrink-0 border-t border-gray-100 px-2.5 pb-2.5 pt-2">
                 {error ? (
-                  <p className="mb-1.5 px-1 text-[11px] leading-snug text-red-700">{error}</p>
+                  <p className="mb-1.5 px-1 text-[11px] leading-snug text-red-700">
+                    {error}
+                  </p>
                 ) : null}
                 {offerCallback ? (
                   <div className="mb-2 rounded-xl border border-gray-100 bg-mint/70 px-3 py-2">
@@ -267,7 +313,10 @@ export function ChatWidget() {
                     </div>
                   </div>
                 ) : null}
-                <form onSubmit={(e) => void sendMessage(e)} className="flex items-end gap-1.5">
+                <form
+                  onSubmit={(e) => void sendMessage(e)}
+                  className="flex items-end gap-1.5"
+                >
                   <input
                     ref={inputRef}
                     value={input}
