@@ -29,6 +29,7 @@ export function ChatWidget() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [reference, setReference] = useState<string | null>(null);
+  const [offerCallback, setOfferCallback] = useState(false);
   const [contact, setContact] = useState({
     name: "",
     phone: "",
@@ -78,7 +79,8 @@ export function ChatWidget() {
         ...prev,
         { role: "assistant", content: data.reply || "…" },
       ]);
-      if (data.need_contact) setView("callback");
+      // Stay in chat — only gently offer callback; never force the form.
+      if (data.need_contact) setOfferCallback(true);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Fehler");
     } finally {
@@ -200,6 +202,33 @@ export function ChatWidget() {
                 {error ? (
                   <p className="mb-2 px-1 text-xs leading-snug text-red-700">{error}</p>
                 ) : null}
+                {offerCallback ? (
+                  <div className="mb-2 rounded-2xl bg-mint/80 px-3 py-2.5">
+                    <p className="text-sm leading-snug text-forest">
+                      Möchten Sie einen Rückruf vom Team?
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setError(null);
+                          setOfferCallback(false);
+                          setView("callback");
+                        }}
+                        className="rounded-full bg-lime px-3.5 py-1.5 text-xs font-semibold text-forest"
+                      >
+                        Ja, Rückruf
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setOfferCallback(false)}
+                        className="rounded-full px-3 py-1.5 text-xs text-gray-500 hover:text-forest"
+                      >
+                        Weiter chatten
+                      </button>
+                    </div>
+                  </div>
+                ) : null}
                 <form onSubmit={(e) => void sendMessage(e)} className="flex items-end gap-2">
                   <input
                     ref={inputRef}
@@ -218,16 +247,18 @@ export function ChatWidget() {
                     <Send className="h-4 w-4" />
                   </button>
                 </form>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setError(null);
-                    setView("callback");
-                  }}
-                  className="mt-2 w-full py-1 text-center text-xs text-gray-400 transition hover:text-aqua-deep"
-                >
-                  Rückruf anfragen
-                </button>
+                {!offerCallback ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setError(null);
+                      setView("callback");
+                    }}
+                    className="mt-2 w-full py-1 text-center text-xs text-gray-400 transition hover:text-aqua-deep"
+                  >
+                    Rückruf anfragen
+                  </button>
+                ) : null}
               </footer>
             </>
           ) : null}
