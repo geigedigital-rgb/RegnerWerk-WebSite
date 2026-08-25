@@ -16,7 +16,7 @@ import { track } from "@/lib/analytics";
 type ChatMsg = {
   role: "user" | "assistant";
   content: string;
-  showConfigurator?: boolean;
+  showPlanChoice?: boolean;
 };
 type View = "chat" | "callback" | "done";
 type HandoffReason = "price" | "uncertain" | "request";
@@ -112,6 +112,7 @@ export function ChatWidget() {
         reply?: string;
         need_contact?: boolean;
         handoff_reason?: HandoffReason | null;
+        show_plan_choice?: boolean;
         show_configurator?: boolean;
         error?: string;
       };
@@ -121,7 +122,9 @@ export function ChatWidget() {
         {
           role: "assistant",
           content: data.reply || "…",
-          showConfigurator: Boolean(data.show_configurator),
+          showPlanChoice: Boolean(
+            data.show_plan_choice || data.show_configurator,
+          ),
         },
       ]);
       if (data.need_contact) {
@@ -245,10 +248,10 @@ export function ChatWidget() {
                     >
                       {m.content}
                     </div>
-                    {m.role === "assistant" && m.showConfigurator ? (
-                      <div className="mr-5 rounded-xl border border-gray-100 bg-white p-2.5">
+                    {m.role === "assistant" && m.showPlanChoice ? (
+                      <div className="mr-5 space-y-1.5 rounded-xl border border-gray-100 bg-white p-2.5">
                         <p className="text-[11px] leading-snug text-gray-500">
-                          Garten selbst planen
+                          Wie möchten Sie weiter machen?
                         </p>
                         <a
                           href={konfiguratorEntryUrl}
@@ -256,14 +259,26 @@ export function ChatWidget() {
                           rel="noopener noreferrer"
                           onClick={() =>
                             track("garten_berechnen_click", {
-                              source: "support_chat",
+                              source: "support_chat_choice",
                             })
                           }
-                          className="mt-1.5 inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-lime px-3 py-2 text-[12px] font-semibold text-forest transition hover:bg-lime-hover"
+                          className="inline-flex w-full items-center justify-center gap-1.5 rounded-full bg-lime px-3 py-2 text-[12px] font-semibold text-forest transition hover:bg-lime-hover"
                         >
-                          Garten berechnen
+                          Selbst berechnen
                           <ArrowUpRight className="h-3.5 w-3.5" />
                         </a>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setHandoffReason("request");
+                            setOfferCallback(false);
+                            setError(null);
+                            setView("callback");
+                          }}
+                          className="inline-flex w-full items-center justify-center rounded-full border border-gray-100 bg-ice px-3 py-2 text-[12px] font-semibold text-forest transition hover:bg-mint"
+                        >
+                          Berechnung vom Spezialisten
+                        </button>
                       </div>
                     ) : null}
                   </div>
