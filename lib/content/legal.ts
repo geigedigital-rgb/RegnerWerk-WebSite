@@ -40,7 +40,7 @@ export const legalEntity = {
   },
   /** Public contact for the RegnerWerk service brand (not inventing private addresses). */
   contactEmail: "hallo@regnerwerk.de",
-  contactPhone: "+49 (0) 800 123 4567",
+  contactPhone: "+49 421 51904482",
   vatId: null as string | null,
   supervisoryAuthorityHint:
     "Zuständige Datenschutz-Aufsichtsbehörde am Wohnsitz bzw. gewöhnlichen Aufenthalt der betroffenen Person oder am Sitz der verantwortlichen Stelle (für DE u. a. die Landesbeauftragten für Datenschutz; für UK ggf. ICO).",

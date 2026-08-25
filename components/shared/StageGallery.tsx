@@ -1,10 +1,11 @@
 import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { ContentIcon, type RwIcon } from "@/components/shared/ContentIcon";
-import { PhotoAtmosphere } from "@/components/shared/PhotoAtmosphere";
-import { images } from "@/lib/content/media";
 
 export type StageItem = {
+  /** Short label on the photo (bottom). Falls back to title. */
+  caption?: string;
+  /** Clear headline next to the photo. */
   title: string;
   body?: string;
   image: string;
@@ -18,6 +19,7 @@ export type StageFocusItem = {
   icon: RwIcon;
 };
 
+/** Simple vertical stages: photo + copy, no nested shells. */
 export function StageGallery({
   title,
   intro,
@@ -30,13 +32,9 @@ export function StageGallery({
   focus?: { title: string; items: StageFocusItem[] };
 }) {
   return (
-    <PhotoAtmosphere
-      variant="light"
-      image={images.lawn}
-      className="rw-section"
-    >
+    <section className="rw-section">
       <Container>
-        <div className="rw-measure">
+        <div className="max-w-2xl">
           <p className="rw-eyebrow">Ablauf</p>
           <h2 className="mt-2 text-[clamp(1.5rem,2.4vw,2rem)] font-bold leading-tight tracking-[-0.02em] text-forest">
             {title}
@@ -48,57 +46,73 @@ export function StageGallery({
           ) : null}
         </div>
 
-        <div
-          className={`-mx-4 mt-8 flex gap-4 overflow-x-auto px-4 pb-2 snap-x snap-mandatory md:mx-0 md:grid md:overflow-visible md:px-0 md:pb-0 ${
-            stages.length >= 5
-              ? "md:grid-cols-2 lg:grid-cols-3"
-              : stages.length === 3
-                ? "md:grid-cols-3"
-                : "md:grid-cols-2 lg:grid-cols-4"
-          }`}
-        >
+        <ol className="mt-12 space-y-14 lg:mt-16 lg:space-y-20">
           {stages.map((stage, i) => {
             const n = stage.number || String(i + 1).padStart(2, "0");
+            const reverse = i % 2 === 1;
+            const onImage = stage.caption ?? stage.title;
+            const textHeading = stage.caption ? stage.title : null;
+
             return (
-              <article
-                key={stage.title}
-                className="relative h-72 w-[78vw] max-w-sm shrink-0 snap-center overflow-hidden rounded-[1.75rem] border border-white/40 shadow-soft md:h-80 md:w-auto md:max-w-none"
+              <li
+                key={`${n}-${onImage}`}
+                className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-14 ${
+                  reverse ? "lg:[&>*:first-child]:order-2" : ""
+                }`}
               >
-                <Image
-                  src={stage.image}
-                  alt={stage.imageAlt}
-                  fill
-                  className="object-cover"
-                  sizes="(max-width:768px) 78vw, (max-width:1024px) 50vw, 25vw"
-                />
-                <div
-                  className="absolute inset-0 bg-gradient-to-t from-forest via-forest/55 to-forest/10"
-                  aria-hidden
-                />
-                <div className="absolute inset-x-0 bottom-0 p-5">
-                  <span className="inline-flex h-8 min-w-8 items-center justify-center rounded-full bg-lime px-2.5 text-xs font-bold text-forest">
-                    {n}
-                  </span>
-                  <h3 className="mt-3 text-lg font-bold leading-snug text-white">
-                    {stage.title}
-                  </h3>
+                <div className="relative aspect-[16/10] overflow-hidden rounded-[1.75rem] bg-mint">
+                  <Image
+                    src={stage.image}
+                    alt={stage.imageAlt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width:1024px) 100vw, 50vw"
+                  />
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-forest/75 via-forest/20 to-transparent"
+                    aria-hidden
+                  />
+                  <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6">
+                    <span className="text-xs font-semibold tracking-[0.12em] text-lime">
+                      {n}
+                    </span>
+                    <p className="mt-1.5 text-lg font-bold leading-snug tracking-[-0.02em] text-white sm:text-xl">
+                      {onImage}
+                    </p>
+                  </div>
+                </div>
+
+                <div>
+                  {textHeading ? (
+                    <h3 className="text-[clamp(1.25rem,2vw,1.55rem)] font-bold leading-snug tracking-[-0.02em] text-forest">
+                      {textHeading}
+                    </h3>
+                  ) : (
+                    <span className="text-sm font-semibold tracking-[0.08em] text-aqua-deep">
+                      {n}
+                    </span>
+                  )}
                   {stage.body ? (
-                    <p className="mt-1.5 text-sm leading-relaxed text-white/80">
+                    <p
+                      className={`max-w-lg text-[1.0625rem] leading-[1.7] text-gray-600 ${
+                        textHeading ? "mt-4" : "mt-3"
+                      }`}
+                    >
                       {stage.body}
                     </p>
                   ) : null}
                 </div>
-              </article>
+              </li>
             );
           })}
-        </div>
+        </ol>
 
         {focus ? (
-          <div className="mt-8 rounded-[1.75rem] border border-white/70 bg-white/90 p-5 backdrop-blur-[2px] sm:p-6">
+          <div className="mt-16 border-t border-gray-100 pt-10 lg:mt-20">
             <h3 className="text-sm font-semibold uppercase tracking-[0.14em] text-aqua-deep">
               {focus.title}
             </h3>
-            <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <ul className="mt-6 grid gap-8 sm:grid-cols-2 lg:grid-cols-3 lg:gap-10">
               {focus.items.map((item) => (
                 <li key={item.title} className="flex gap-3">
                   <ContentIcon
@@ -109,7 +123,7 @@ export function StageGallery({
                     <span className="block text-sm font-bold text-forest">
                       {item.title}
                     </span>
-                    <span className="mt-1 block text-xs leading-relaxed text-gray-600 sm:text-sm">
+                    <span className="mt-1 block text-sm leading-relaxed text-gray-600">
                       {item.body}
                     </span>
                   </span>
@@ -119,6 +133,6 @@ export function StageGallery({
           </div>
         ) : null}
       </Container>
-    </PhotoAtmosphere>
+    </section>
   );
 }

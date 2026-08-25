@@ -3,6 +3,7 @@ import { Caveat, Plus_Jakarta_Sans } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { CookieBanner } from "@/components/shared/CookieBanner";
+import { ChatWidget } from "@/components/shared/ChatWidget";
 import { SkipToContent } from "@/components/shared/SkipToContent";
 import { StickyMobileCta } from "@/components/shared/StickyMobileCta";
 import { site } from "@/lib/site";
@@ -77,6 +78,7 @@ export default function RootLayout({
         </main>
         <Footer />
         <StickyMobileCta />
+        <ChatWidget />
         <CookieBanner />
       </body>
     </html>

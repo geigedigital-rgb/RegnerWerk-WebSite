@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { featuredCities } from "@/lib/content/cities";
-import { site, siteUrl } from "@/lib/site";
+import { phoneE164, site, siteUrl } from "@/lib/site";
 
 export type SeoInput = {
   title: string;
@@ -62,7 +62,26 @@ export function organizationSchema() {
     url: siteUrl,
     logo: `${siteUrl}/brand/logo-horizontal.png`,
     email: site.email,
-    telephone: site.phone,
+    telephone: phoneE164(),
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: phoneE164(),
+      contactType: "customer service",
+      availableLanguage: ["German", "de"],
+      areaServed: "DE",
+      hoursAvailable: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+        ],
+        opens: "08:00",
+        closes: "18:00",
+      },
+    },
     identifier: "16035252",
     areaServed: {
       "@type": "Country",
@@ -94,7 +113,14 @@ export function localBusinessSchema() {
     image: `${siteUrl}/og.png`,
     logo: `${siteUrl}/brand/logo-horizontal.png`,
     email: site.email,
-    telephone: site.phone,
+    telephone: phoneE164(),
+    contactPoint: {
+      "@type": "ContactPoint",
+      telephone: phoneE164(),
+      contactType: "customer service",
+      availableLanguage: ["German", "de"],
+      areaServed: "DE",
+    },
     areaServed: [
       { "@type": "Country", name: "Deutschland" },
       ...featuredCities().map((city) => ({
@@ -137,6 +163,54 @@ export function webPageSchema({
     description,
     isPartOf: { "@id": `${siteUrl}/#website` },
     about: { "@id": `${siteUrl}/#organization` },
+    inLanguage: "de-DE",
+  };
+}
+
+export function contactPageSchema({
+  name,
+  description,
+  path,
+}: {
+  name: string;
+  description: string;
+  path: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "@id": `${absoluteUrl(path)}#contactpage`,
+    url: absoluteUrl(path),
+    name,
+    description,
+    isPartOf: { "@id": `${siteUrl}/#website` },
+    about: { "@id": `${siteUrl}/#organization` },
+    mainEntity: {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: site.name,
+      telephone: phoneE164(),
+      email: site.email,
+      contactPoint: {
+        "@type": "ContactPoint",
+        telephone: phoneE164(),
+        contactType: "customer service",
+        availableLanguage: ["German", "de"],
+        areaServed: "DE",
+        hoursAvailable: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+          ],
+          opens: "08:00",
+          closes: "18:00",
+        },
+      },
+    },
     inLanguage: "de-DE",
   };
 }

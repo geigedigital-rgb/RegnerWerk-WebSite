@@ -40,7 +40,7 @@ export function Header() {
           <BrandLogo variant={solid ? "color" : "onDark"} />
         </Link>
 
-        <nav className="hidden items-center gap-7 lg:flex">
+        <nav className="hidden items-center gap-5 xl:gap-7 lg:flex">
           {nav.map((item) => (
             <Link
               key={item.href}
@@ -117,6 +117,16 @@ export function Header() {
                 {item.label}
               </Link>
             ))}
+            <a
+              href={telHref()}
+              onClick={() => {
+                track("tel_click");
+                setOpen(false);
+              }}
+              className="text-base font-semibold text-aqua-deep"
+            >
+              {site.phone}
+            </a>
             <Button href={calcHref} variant="primary" className="w-full">
               Garten berechnen
             </Button>

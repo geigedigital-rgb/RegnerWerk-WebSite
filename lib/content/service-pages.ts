@@ -33,30 +33,34 @@ export const komponentenPage = {
       stages: [
         {
           number: "01",
-          title: "Anforderung klären",
-          body: "Fläche, Pflanzen, Wasserparameter und Alltagswünsche festlegen.",
+          caption: "Anforderung klären",
+          title: "Zuerst der Garten – dann die Technik",
+          body: "Bevor wir Regner oder Ventile festlegen, klären wir Fläche, Pflanzen, Druck, Durchfluss und Ihren Alltag. So entsteht eine Auslegung, die zum Anschluss und zum Grundstück passt – nicht zu einem Katalogwunsch. Sie wissen früh, was die Anlage leisten soll und wo Grenzen liegen.",
           image: images.measurement,
           imageAlt: "Wasseranschluss und Parameter prüfen",
         },
         {
           number: "02",
-          title: "Passend auswählen",
-          body: "Regner, Tropf, Ventile und Filter folgen der Auslegung – nicht umgekehrt.",
-          image: images.components,
-          imageAlt: "Auswahl bewährter Bewässerungskomponenten",
+          caption: "Passend auswählen",
+          title: "Komponenten folgen dem Plan",
+          body: "Regner, Tropf, Ventile und Filter werden erst nach der Auslegung gewählt. Bewährte Systeme wie Hunter oder Rain Bird setzen wir dort ein, wo sie zur Zone und zum Wasserangebot passen. Marke ersetzt bei uns keine Messung – sie stützt das geplante Ergebnis.",
+          image: images.passendAuswaehlen,
+          imageAlt: "Auswahl bewährter Bewässerungskomponenten nach Planung",
         },
         {
           number: "03",
-          title: "Sauber einbauen",
-          body: "Ventilbox, Leitungen und Anschlüsse so, dass Service später möglich bleibt.",
+          caption: "Sauber einbauen",
+          title: "Einbau, der später Service erlaubt",
+          body: "Ventilbox, Leitungen und Anschlüsse legen wir so, dass der Bestand geschont bleibt und wichtige Stellen zugänglich sind. Ordentliche Führung und klare Übergänge reduzieren Folgeschäden und machen Wartung oder Erweiterung später nachvollziehbar – statt Rätselraten unter dem Rasen.",
           image: images.controller,
           imageAlt: "Ordentlich verbaute Ventilbox im Garten",
         },
         {
           number: "04",
-          title: "Dokumentieren",
-          body: "Wichtige Verläufe und Einstellungen bleiben nachvollziehbar.",
-          image: images.trenchDoc,
+          caption: "Dokumentieren",
+          title: "Was verbaut wurde, bleibt nachvollziehbar",
+          body: "Wichtige Leitungsverläufe und Einstellungen halten wir fest, soweit im Projekt vereinbart. So bleibt die Anlage auch Jahre später verständlich – für Sie, für Service und für Erweiterungen. Dokumentation ist Teil der Verantwortung, nicht ein Extra nach dem Einbau.",
+          image: images.dokumentieren,
           imageAlt: "Dokumentation offener Leitungsverläufe",
         },
       ],
@@ -211,7 +215,7 @@ export const steuerungPage = {
   seo: {
     title: "Bewässerungssteuerung: Zeiten, Zonen und Alltag",
     description:
-      "Bewässerungssteuerung verständlich einrichten: Zonen, Laufzeiten und Wetteranpassung – ohne Technikchaos. RegnerWerk programmiert, weist ein und justiert nach.",
+      "Bewässerungssteuerung verständlich einrichten: Zonen, Laufzeiten und sinnvolle Anpassungen – ohne Technikchaos. RegnerWerk programmiert, weist ein und justiert nach.",
     path: "/bewaesserungssteuerung/",
   },
   query: "Bewässerungssteuerung Garten",
@@ -223,70 +227,95 @@ export const steuerungPage = {
   blocks: [
     {
       type: "prose",
-      title: "Was schiefgeht, wenn nur „eine Uhr“ hängt",
+      title: "Warum die Bedienung oft wichtiger ist als die Hardware",
       paragraphs: [
-        "Viele Anlagen scheitern nicht am Rohr, sondern an der Bedienung: alle Zonen gleich lang, keine Trennung von Rasen und Beeten, oder eine App, die niemand versteht. Dann wird wieder zum Schlauch gegriffen.",
-        "Wir richten die Steuerung so ein, dass sie zum Garten und zu Ihrem Alltag passt. Technik bleibt im Hintergrund; Sie behalten den Überblick über Zonen und Laufzeiten.",
+        "Viele Anlagen scheitern nicht am Rohr oder am Regner, sondern an der Steuerung: alle Zonen laufen gleich lang, Rasen und Beete teilen sich ein Programm, oder eine App bleibt unbenutzt, weil niemand sie erklärt bekommen hat. Dann wird wieder zum Schlauch gegriffen – obwohl die Technik eigentlich da ist.",
+        "Bei RegnerWerk gehört die Steuerung zur fertigen Anlage. Wir ordnen Zonen logisch, setzen Laufzeiten nach Fläche und Wasserangebot und weisen Sie so ein, dass Sie im Alltag den Überblick behalten. Technik bleibt im Hintergrund; Verständlichkeit und Nachjustierung nicht.",
       ],
     },
     {
       type: "stageGallery",
       title: "So entsteht eine alltagstaugliche Steuerung",
-      intro: "Von der Zonenlogik bis zur Einweisung – ohne Feature-Hype.",
+      intro:
+        "Vier Schritte von der Zonenlogik bis zur Feinjustierung – klar benannt, ohne Feature-Hype.",
       stages: [
         {
           number: "01",
-          title: "Zonen logisch ordnen",
-          body: "Rasen, Beete und Hecken erhalten sinnvolle Gruppen und Reihenfolgen.",
-          image: images.process,
-          imageAlt: "Planung der Bewässerungszonen",
+          caption: "Zonen logisch ordnen",
+          title: "Jede Fläche bekommt ihr eigenes Programm",
+          body: "Rasen, Beete und Hecken werden nicht in eine Schublade geworfen. Wir gruppieren Zonen so, dass Durchfluss, Laufzeit und Reihenfolge zum Anschluss passen. Sie sehen später auf der Steuerung, was wann läuft – und warum Rasen und Tropf getrennt bleiben sollten.",
+          image: images.zonePlan,
+          imageAlt: "Planung der Bewässerungszonen im Garten",
         },
         {
           number: "02",
-          title: "Programmieren",
-          body: "Laufzeiten und Startfenster nach Fläche und Wasserangebot setzen.",
-          image: images.steuerung,
-          imageAlt: "Einrichtung der Bewässerungssteuerung",
+          caption: "Programmieren",
+          title: "Zeiten, die zum Garten und zum Wasser passen",
+          body: "Laufzeiten und Startfenster richten wir nach Fläche, Regnerart und verfügbarem Druck ein – nicht nach einer Standardvorlage. Parallel laufen nur so viele Zonen, wie der Anschluss stabil versorgen kann. So entsteht ein Programm, das im Alltag funktioniert, statt nur auf dem Display gut auszusehen.",
+          image: images.controllerProgramming,
+          imageAlt: "Programmierung der Bewässerungssteuerung",
         },
         {
           number: "03",
-          title: "Einweisen",
-          body: "Sie wissen, wie Sie Zeiten anpassen und was Sie nicht ändern müssen.",
-          image: images.planungBuero,
-          imageAlt: "Abstimmung der Steuerung mit dem Kunden",
+          caption: "Einweisen",
+          title: "Sie wissen, was Sie selbst ändern dürfen",
+          body: "Nach der Inbetriebnahme zeigen wir Ihnen die Grundeinstellungen: Zonen erkennen, Zeiten nachvollziehen, Bewässerung pausieren. Gleichzeitig sagen wir klar, wann eine Anpassung sinnvoll ist und wann Sie lieber anrufen sollten. Einweisung ist bei uns kein Extra – sie gehört zur Übergabe.",
+          image: images.einstellen,
+          imageAlt: "Einweisung in die Bewässerungssteuerung vor Ort",
         },
         {
           number: "04",
-          title: "Feinjustieren",
-          body: "Nach den ersten Läufen Sektoren und Zeiten nachziehen.",
+          caption: "Feinjustieren",
+          title: "Nach den ersten Läufen nachziehen",
+          body: "Ein Programm steht selten nach dem ersten Tag perfekt. Nach den ersten heißen Wochen prüfen wir Sektoren, Laufzeiten und Abdeckung und ziehen nach, soweit im Projekt vereinbart. So wird aus der theoretischen Planung eine Anlage, die im echten Garten gleichmäßig arbeitet.",
           image: images.startEinstellung,
-          imageAlt: "Feinjustierung der Bewässerung vor Ort",
+          imageAlt: "Feinjustierung der Bewässerung nach den ersten Läufen",
         },
       ],
+      focus: {
+        title: "Was wir bei der Steuerung bewusst tun",
+        items: [
+          {
+            title: "Zonen getrennt halten",
+            body: "Rasen und Tropf laufen nicht pauschal mit – unterschiedliche Bedürfnisse, unterschiedliche Intervalle.",
+            icon: "grid",
+          },
+          {
+            title: "Wasser zuerst",
+            body: "Parallelbetrieb und Laufzeiten folgen Druck und Durchfluss – nicht umgekehrt.",
+            icon: "gauge",
+          },
+          {
+            title: "Übergabe statt App-Hype",
+            body: "Funktionen nur einrichten, die Sie wirklich nutzen – und verständlich erklären.",
+            icon: "badgeCheck",
+          },
+        ],
+      },
     },
     {
       type: "cards",
-      title: "Varianten – passend zum Bedarf",
+      title: "Welche Steuerung zu Ihrem Garten passt",
       cards: [
         {
-          title: "Einfache Steuerung",
-          body: "Klare Zeiten und Zonen – ideal, wenn Sie wenig Einstellungen brauchen.",
+          title: "Einfache Zeitensteuerung",
+          body: "Feste Startzeiten und Zonen – ideal, wenn Sie klare Programme brauchen und selten umstellen. Zuverlässig, nachvollziehbar, ohne Pflicht-App.",
           icon: "clock",
         },
         {
-          title: "Wettergeführt",
-          body: "Anpassung an Regen und Bedarf – sinnvoll, wo der Alltag das hergibt.",
+          title: "Wetterangepasst",
+          body: "Regensensor oder Wetterführung, wo sinnvoll: weniger Verschwendung bei Nässe, ohne dass Sie täglich nachjustieren müssen.",
           icon: "phone",
         },
         {
           title: "Getrennte Tropfzonen",
-          body: "Beete und Hecken laufen nicht mit dem Rasen mit – eigene Intervalle.",
+          body: "Beete und Hecken mit eigenen Intervallen – getrennt vom Rasenprogramm. Wichtig, wenn Pflanzen und Gras unterschiedlich Wasser brauchen.",
           icon: "sprout",
           href: "/tropfbewaesserung-hecken-beete/",
         },
         {
-          title: "Später erweiterbar",
-          body: "Steuerung so vorbereitet, dass zusätzliche Zonen möglich bleiben.",
+          title: "Erweiterbar vorbereitet",
+          body: "Steuerung und Ventilbox so angelegt, dass spätere Zonen oder Anschlüsse möglich bleiben – ohne alles neu planen zu müssen.",
           icon: "layers",
         },
       ],
@@ -294,50 +323,65 @@ export const steuerungPage = {
     {
       type: "checklist",
       title: "Was Sie nach der Übergabe können sollten",
-      intro: "Kurze, konkrete Fähigkeiten – kein Technikseminar.",
+      intro:
+        "Kein Technikseminar – aber genug Sicherheit für den Alltag. Das sollte nach unserer Einweisung klar sein:",
       items: [
-        { text: "Zonen erkennen und Laufzeiten nachvollziehen", icon: "grid" },
-        { text: "Bewässerung pausieren (Urlaub, Starkregen)", icon: "clock" },
-        { text: "Einfache Zeitverschiebung vornehmen", icon: "timer" },
-        { text: "Wissen, wann Sie uns rufen statt zu experimentieren", icon: "badgeCheck" },
+        {
+          text: "Welche Zone Rasen, Beete oder Hecken versorgt",
+          icon: "grid",
+        },
+        {
+          text: "Wie Sie die Bewässerung pausieren (Urlaub, Starkregen)",
+          icon: "clock",
+        },
+        {
+          text: "Wie Sie Startzeiten oder Laufzeiten leicht verschieben",
+          icon: "timer",
+        },
+        {
+          text: "Wann ein Anruf sinnvoller ist als Experimentieren",
+          icon: "badgeCheck",
+        },
       ],
     },
     {
       type: "mistakes",
-      title: "Typische Steuerungsfehler",
+      title: "Typische Fehler bei der Steuerung",
+      intro:
+        "Diese Muster sehen wir oft – und vermeiden sie in der Planung und Übergabe:",
       items: [
         {
-          title: "Alle Zonen gleich lang",
-          body: "Rasen und Tropf brauchen oft unterschiedliche Intervalle.",
+          title: "Alle Zonen gleich lang laufen lassen",
+          body: "Rasen und Tropf brauchen selten dieselbe Dauer. Gleiche Minuten für alles führen zu nassen Wegen oder durstigen Beeten.",
         },
         {
-          title: "App ohne Einweisung",
-          body: "Unbenutzte Funktionen helfen nicht – verständliche Grundeinstellung schon.",
+          title: "App einrichten, aber nicht erklären",
+          body: "Unbenutzte Funktionen helfen nicht. Besser: wenige Einstellungen, die Sie verstehen und im Notfall selbst anpassen können.",
         },
         {
-          title: "Nie nachjustieren",
-          body: "Nach dem ersten heißen Monat zeigen sich oft Feinschliffe.",
+          title: "Nie nach den ersten heißen Wochen prüfen",
+          body: "Abdeckung und Laufzeiten zeigen sich erst im Betrieb. Feinjustierung gehört zur professionellen Übergabe – nicht zum Glücksspiel.",
         },
         {
-          title: "Steuerung mit Winterservice vermischen",
-          body: "Programmierung und Saisonpflege sind getrennte Themen – wir benennen das klar.",
+          title: "Programmierung mit Winterservice verwechseln",
+          body: "Einstellung für die Saison und technische Wintervorbereitung sind getrennte Themen. Wir benennen das klar, damit keine Lücken entstehen.",
         },
       ],
     },
     {
       type: "media",
-      title: "Technik, die im Schrank bleibt",
-      body: "Die beste Steuerung ist die, die Sie selten öffnen. Sichtbar bleibt der Garten: gleichmäßige Flächen, trockene Wege, ruhige Bedienung. Die Box und das Display gehören zur Anlage – nicht in den Vordergrund der Markenstory.",
+      title: "Steuerung im Hintergrund, Ergebnis im Garten",
+      body: "Die beste Steuerung ist die, die Sie selten öffnen müssen. Sichtbar bleibt der Garten: gleichmäßigere Flächen, trockene Wege, ruhiger Alltag ohne Schlauch. Steuergerät und Ventilbox gehören zur Anlage – nicht zur Werbefläche. Entscheidend ist, dass Zonen, Zeiten und Nachjustierung zusammenpassen.",
       image: images.steuerung,
-      imageAlt: "Steuergerät der Gartenbewässerung",
+      imageAlt: "Steuergerät der Gartenbewässerung im Technikbereich",
       reverse: true,
     },
     {
       type: "prose",
       title: "Das Ergebnis im Alltag",
       paragraphs: [
-        "Sie starten die Saison mit nachvollziehbaren Zonen und Zeiten. Anpassungen bleiben überschaubar. Bei Unsicherheit wissen Sie, was zur Einweisung gehört und was späterer Service ist.",
-        "So wird Automatik spürbar: weniger Schlauch, weniger Rätselraten – und eine Anlage, die zum Garten passt.",
+        "Sie starten die Saison mit nachvollziehbaren Zonen und Zeiten. Anpassungen bleiben überschaubar – und Sie wissen, was zur Einweisung gehört und was späterer Service ist.",
+        "So wird Automatik im Garten spürbar: weniger Schlauch, weniger Rätselraten, und eine Anlage, die zu Ihrem Grundstück und Ihrem Wasseranschluss passt.",
       ],
     },
   ],
@@ -345,17 +389,22 @@ export const steuerungPage = {
     {
       question: "Brauche ich unbedingt eine App?",
       answer:
-        "Nein. Viele Anlagen laufen zuverlässig mit klaren Zeiten. Wetterführung oder App sind Optionen – sinnvoll, wenn Sie sie wirklich nutzen.",
+        "Nein. Viele Anlagen laufen zuverlässig mit klaren Zeiten am Steuergerät. App oder Wetterführung sind sinnvoll, wenn Sie sie wirklich nutzen – nicht als Pflichtfeature.",
     },
     {
       question: "Können Rasen und Beete getrennt laufen?",
       answer:
-        "Ja, das ist oft der Sinn getrennter Zonen. Tropf und Regner brauchen typischerweise unterschiedliche Intervalle.",
+        "Ja – und das ist oft sinnvoll. Versenkregner und Tropf haben unterschiedliche Intervalle. Getrennte Zonen sind Teil einer vernünftigen Auslegung, nicht ein Luxus.",
     },
     {
       question: "Wer stellt die Steuerung ein?",
       answer:
-        "Wir programmieren und weisen ein. Feinjustierung nach den ersten Läufen gehört dazu – im vereinbarten Rahmen.",
+        "Wir programmieren, prüfen und weisen ein. Feinjustierung nach den ersten Läufen gehört dazu – im vereinbarten Projektumfang, nicht als Ratespiel für Sie.",
+    },
+    {
+      question: "Was passiert, wenn ich etwas falsch stelle?",
+      answer:
+        "Kleine Zeitverschiebungen sind normal. Wenn Abdeckung, Druck oder Zonen durcheinandergeraten, ist ein Anruf oft günstiger als stundenlanges Herumprobieren. Genau dafür gibt es die Einweisung mit klaren Grenzen.",
     },
   ],
   related: [

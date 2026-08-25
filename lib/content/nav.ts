@@ -6,6 +6,7 @@ export const nav = [
   { href: "/projekte/", label: "Projekte" },
   { href: "/service/", label: "Service" },
   { href: "/ueber-regnerwerk/", label: "Über RegnerWerk" },
+  { href: "/kontakt/", label: "Kontakt" },
 ] as const;
 
 export const calcHref = konfiguratorEntryUrl;
@@ -13,7 +14,6 @@ export const calcHref = konfiguratorEntryUrl;
 export const footerNav: { href: string; label: string }[] = [
   ...nav,
   { href: "/einsatzgebiet/", label: "Einsatzgebiet" },
-  { href: "/kontakt/", label: "Kontakt" },
   { href: calcHref, label: "Garten berechnen" },
 ];
 

@@ -13,7 +13,8 @@ export const site = {
   name: "RegnerWerk",
   legalName: "MARYSCHAKGROUP LTD",
   tagline: "Automatische Gartenbewässerung. Professionell geplant und eingebaut.",
-  phone: "+49 (0) 800 123 4567",
+  /** Display format (Bremen 0421). */
+  phone: "+49 421 51904482",
   email: "hallo@regnerwerk.de",
   address: "United Kingdom (Companies House Nr. 16035252)",
   region: "Deutschland",
@@ -28,6 +29,11 @@ export function formatEuro(value: number) {
   }).format(value);
 }
 
+/** E.164 for tel: links and schema.org */
+export function phoneE164(phone = site.phone) {
+  return phone.replace(/[^\d+]/g, "");
+}
+
 export function telHref(phone = site.phone) {
-  return `tel:${phone.replace(/[^\d+]/g, "")}`;
+  return `tel:${phoneE164(phone)}`;
 }
